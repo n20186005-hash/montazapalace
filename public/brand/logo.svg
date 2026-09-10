@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="108" viewBox="0 0 420 108" role="img" aria-labelledby="title desc">
+  <title id="title">قصر المنتزه</title>
+  <desc id="desc">رمز برج ملكي فوق موجة متوسطية</desc>
+  <rect width="420" height="108" rx="22" fill="#073f45"/>
+  <g transform="translate(22 14)">
+    <path d="M17 66c11-9 22-9 33 0s22 9 33 0v9c-11 9-22 9-33 0s-22-9-33 0z" fill="#5fc3c8"/>
+    <path d="M26 58V28h42v30" fill="#f4ead6" stroke="#e7cb8a" stroke-width="3"/>
+    <path d="M36 28V13h22v15M42 13V5h10v8" fill="#f4ead6" stroke="#e7cb8a" stroke-width="3"/>
+    <path d="M31 28l8-9 8 9 8-9 8 9" fill="none" stroke="#8f3d32" stroke-width="3"/>
+    <path d="M36 58V43h9v15M51 58V43h9v15" fill="#073f45"/>
+    <path d="M42 5h10l-5-5z" fill="#e7cb8a"/>
+  </g>
+  <g fill="#fff" font-family="Tahoma,Arial,sans-serif" text-anchor="start">
+    <text x="120" y="48" font-size="31" font-weight="800">قصر المنتزه</text>
+    <text x="120" y="78" font-size="17" opacity=".7">الإسكندرية · دليل زيارة مستقل</text>
+  </g>
+</svg>

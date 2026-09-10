@@ -1,0 +1,475 @@
+---
+import '../styles/global.css';
+
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+
+const mapUrl = 'https://maps.app.goo.gl/q697EC591sWcm8yh8';
+const mapEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6059.946987210147!2d30.013416677163775!3d31.288468758560075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f5d05ef533eccb%3A0xae82154762ef9858!2sMontaza%20Palace!5e1!3m2!1sar!2seg!4v1789018679731!5m2!1sar!2seg';
+
+const photos = {
+  hero: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Montazah_Palace_and_Gardens.jpg',
+  palace: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Montaza_Palace_-_ALEXANDRIA.jpg',
+  garden: 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Montaza_Palace_garden_001.JPG',
+  coast: 'https://upload.wikimedia.org/wikipedia/commons/8/80/Montaza_Palace%2C_Alexandria.jpg'
+};
+
+const attractionSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['TouristAttraction', 'LocalBusiness'],
+  name: 'قصر المنتزه',
+  alternateName: 'Montaza Palace',
+  description: 'دليل عربي مستقل لزيارة قصر وحدائق المنتزه الملكية على ساحل الإسكندرية.',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'قصر المنتزه، طريق الجيش، المندرة بحري، المنتزه 2',
+    addressLocality: 'الإسكندرية',
+    addressRegion: 'محافظة الإسكندرية',
+    postalCode: '5527001',
+    addressCountry: 'EG'
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 31.288468758560075,
+    longitude: 30.013416677163775
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '08:00',
+    closes: '23:00'
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.5',
+    ratingCount: '19045',
+    bestRating: '5'
+  },
+  ...(canonicalUrl ? { url: canonicalUrl } : {})
+};
+
+const faqItems = [
+  {
+    question: 'هل يمكن دخول قصر الحرملك من الداخل؟',
+    answer: 'لا تفترض أن مباني القصر الداخلية مفتوحة دائمًا للزيارة العامة؛ بعض أجزاء المجمع ذات استخدام رسمي أو تخضع لترتيبات خاصة. خطط للزيارة على أساس الحدائق والمشاهد الخارجية، واسأل عند البوابة عن أي فتح استثنائي.'
+  },
+  {
+    question: 'كم أحتاج من الوقت لزيارة المنتزه؟',
+    answer: 'زيارة مريحة للحدائق والواجهات الساحلية ونقاط التصوير تحتاج عادةً نحو ساعتين ونصف إلى أربع ساعات، ويمكن أن تمتد أكثر إذا أضفت استراحة أو شاطئًا قريبًا.'
+  },
+  {
+    question: 'ما أفضل وقت للتصوير؟',
+    answer: 'الصباح الباكر يمنحك هدوءًا وضوءًا لطيفًا، بينما الساعات التي تسبق الغروب مناسبة للواجهات الملكية والبحر. في الصيف يفضّل تجنب منتصف النهار بسبب الحرارة.'
+  },
+  {
+    question: 'هل توجد رسوم دخول؟',
+    answer: 'توجد رسوم لدخول الحدائق، وقد تتغير الأسعار والخدمات الإضافية. ورد سعر إرشادي قدره 50 جنيهًا للفرد في تقارير محلية حديثة؛ تحقّق من السعر المعلن عند البوابة يوم زيارتك.'
+  },
+  {
+    question: 'هل المكان مناسب للعائلات وكبار السن؟',
+    answer: 'المساحات المفتوحة واسعة ومناسبة للعائلات، لكن المسافات داخل الحدائق قد تكون طويلة. ارتدِ حذاءً مريحًا واسأل عن وسائل التنقل الداخلية المتاحة عند الوصول.'
+  }
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+};
+
+const title = 'قصر المنتزه | دليل زيارة الحدائق الملكية في الإسكندرية';
+const description = 'دليل عربي مستقل لزيارة قصر المنتزه وحدائقه الملكية: التاريخ، الرسوم، المواقف، المواصلات، أفضل وقت، المطاعم والمعالم القريبة وخريطة Google.';
+---
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b5960" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <title>{title}</title>
+
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ar_EG" />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-touch-icon.png" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(attractionSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+
+    <script is:inline>
+      (() => {
+        if (localStorage.getItem('montaza-analytics-consent') !== 'granted') return;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){ window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-HXM22WWPKP', { anonymize_ip: true });
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP';
+        document.head.appendChild(script);
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="absolute inset-x-0 top-0 z-40 border-b border-white/15 bg-[#073f45]/20 backdrop-blur-md">
+      <div class="container-shell flex h-20 items-center justify-between gap-5">
+        <a href="#top" class="flex items-center gap-3" aria-label="العودة إلى بداية الصفحة">
+          <img src="/brand/logo.svg" alt="شعار قصر المنتزه" class="h-12 w-auto" width="206" height="52" />
+        </a>
+        <nav class="hidden items-center gap-6 text-sm font-bold text-white/90 md:flex" aria-label="التنقل الرئيسي">
+          <a href="#story" class="hover:text-white">الحكاية</a>
+          <a href="#visit" class="hover:text-white">خطط الزيارة</a>
+          <a href="#transport" class="hover:text-white">الوصول</a>
+          <a href="#nearby" class="hover:text-white">حول المنتزه</a>
+          <a href="#faq" class="hover:text-white">الأسئلة</a>
+        </nav>
+        <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="rounded-full border border-white/45 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-white hover:text-[#073f45]">
+          افتح الخريطة
+        </a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="relative flex min-h-[92svh] items-end overflow-hidden bg-[#073f45]">
+        <img
+          src={photos.hero}
+          alt="قصر المنتزه وبرجه المطل على البحر المتوسط"
+          class="absolute inset-0 h-full w-full object-cover object-center"
+          width="1000"
+          height="750"
+          fetchpriority="high"
+          referrerpolicy="no-referrer"
+        />
+        <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,37,40,.20),rgba(4,37,40,.56)_45%,rgba(4,37,40,.94))]"></div>
+        <div class="absolute inset-x-0 bottom-0 h-44 opacity-25 palace-pattern"></div>
+
+        <div class="container-shell relative z-10 pb-16 pt-40 text-white md:pb-24">
+          <div class="mb-7 flex flex-wrap items-center gap-3 text-sm font-bold">
+            <span class="rounded-full border border-white/30 bg-white/10 px-4 py-2 backdrop-blur">الإسكندرية · البحر المتوسط</span>
+            <span class="rounded-full border border-[#d9b76b]/60 bg-[#d9b76b]/10 px-4 py-2 text-[#ffe5a9]">★ 4.5 · 19,045 تقييمًا</span>
+          </div>
+          <p class="mb-3 text-sm font-black tracking-[.23em] text-[#e9c97d]">قصر وحدائق ملكية على طرف المدينة</p>
+          <h1 class="max-w-4xl text-[clamp(3.7rem,10vw,8.6rem)] font-black leading-[.86] tracking-[-.055em]">قصر<br />المنتزه</h1>
+          <div class="mt-9 grid max-w-4xl gap-7 border-t border-white/20 pt-7 md:grid-cols-[1.4fr_.8fr]">
+            <p class="max-w-2xl text-lg leading-8 text-white/84 md:text-xl">
+              حدائق واسعة، عمارة ملكية بطابع متوسطي، وممرات تنفتح على البحر. هذا الدليل يساعدك على زيارة المنتزه كما هو: مكان للتنزّه والتصوير قبل أن يكون مجرد «قصر» خلف بوابة.
+            </p>
+            <div class="flex items-start gap-3 md:justify-end">
+              <span class="mt-1 text-2xl text-[#e9c97d]">⌖</span>
+              <p class="max-w-xs text-sm leading-7 text-white/78">طريق الجيش، المندرة بحري، المنتزه 2، محافظة الإسكندرية</p>
+            </div>
+          </div>
+          <p class="photo-credit absolute bottom-3 left-0 rounded-e-full px-4 py-1.5">صورة حقيقية · Wikimedia Commons · Ayman G. Abdeltawab</p>
+        </div>
+      </section>
+
+      <section class="relative z-20 -mt-7 pb-24">
+        <div class="container-shell grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <article class="arch-card rounded-[2rem] p-6">
+            <div class="info-icon mb-5">◷</div>
+            <p class="text-xs font-black tracking-[.14em] text-[#8f3d32]">الساعات الإرشادية</p>
+            <p class="mt-2 text-2xl font-black">08:00–23:00</p>
+            <p class="mt-1 text-sm text-[#667573]">تحقّق يوم الزيارة؛ قد تتغير المواعيد.</p>
+          </article>
+          <article class="arch-card rounded-[2rem] p-6">
+            <div class="info-icon mb-5">ج.م</div>
+            <p class="text-xs font-black tracking-[.14em] text-[#8f3d32]">رسم إرشادي للحدائق</p>
+            <p class="mt-2 text-2xl font-black">50 جنيهًا</p>
+            <p class="mt-1 text-sm text-[#667573]">سعر متداول حديثًا، وليس ضمانًا للسعر الحالي.</p>
+          </article>
+          <article class="arch-card rounded-[2rem] p-6">
+            <div class="info-icon mb-5">⌛</div>
+            <p class="text-xs font-black tracking-[.14em] text-[#8f3d32]">مدة مقترحة</p>
+            <p class="mt-2 text-2xl font-black">2.5–4 ساعات</p>
+            <p class="mt-1 text-sm text-[#667573]">للتنزّه، البحر، الصور والاستراحة.</p>
+          </article>
+          <article class="arch-card rounded-[2rem] p-6">
+            <div class="info-icon mb-5">☀</div>
+            <p class="text-xs font-black tracking-[.14em] text-[#8f3d32]">أفضل ضوء</p>
+            <p class="mt-2 text-2xl font-black">صباحًا أو قبل الغروب</p>
+            <p class="mt-1 text-sm text-[#667573]">ألطف للمشي وأجمل للواجهات الساحلية.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="story" class="pb-28">
+        <div class="container-shell grid items-center gap-12 lg:grid-cols-[.92fr_1.08fr]">
+          <div class="relative order-2 lg:order-1">
+            <div class="overflow-hidden rounded-t-[10rem] rounded-b-[2rem] border-[10px] border-white shadow-2xl shadow-[#0b5960]/10">
+              <img src={photos.palace} alt="واجهة قصر المنتزه التاريخية في الإسكندرية" class="aspect-[4/5] object-cover" loading="lazy" referrerpolicy="no-referrer" />
+            </div>
+            <div class="absolute -bottom-6 -right-4 rounded-[2rem] bg-[#8f3d32] px-7 py-5 text-white shadow-xl md:-right-8">
+              <p class="text-xs font-bold text-white/70">بدأت قصة الحدائق الملكية</p>
+              <p class="text-3xl font-black">في عهد الخديوي عباس حلمي الثاني</p>
+            </div>
+          </div>
+
+          <div class="order-1 lg:order-2 lg:pr-10">
+            <p class="section-kicker">حكاية المنتزه</p>
+            <h2 class="section-title mt-4">قصرٌ يرى البحر، وحديقةٌ صنعت ضاحية كاملة.</h2>
+            <div class="royal-rule my-8"><span>✦</span></div>
+            <p class="section-copy text-lg">
+              نشأت حدائق المنتزه الملكية في أواخر القرن التاسع عشر ضمن مشروع ملكي على الطرف الشرقي للإسكندرية. ومع الوقت أصبحت المنطقة مجمعًا يجمع حدائق ساحلية وقصورًا تاريخية أبرزها السلاملك والحرملك، وامتزج في عمارتها الإلهام الإيطالي والعثماني والتفاصيل المتوسطية.
+            </p>
+            <p class="section-copy mt-5">
+              اليوم لا تُعامل الزيارة كجولة متحف تقليدية؛ القيمة الأكبر للزائر هي المشهد الخارجي: الأبراج، الأقواس، النخيل، المحاور الخضراء، الجزر الصغيرة وحافة البحر. بعض مباني القصر ذات استخدام رسمي وقد لا تكون متاحة للدخول الداخلي بصورة منتظمة.
+            </p>
+            <div class="mt-8 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-3xl border border-[#0b5960]/15 bg-white/60 p-5">
+                <p class="font-black text-[#0b5960]">الحرملك</p>
+                <p class="mt-2 text-sm text-[#62706e]">الكتلة الملكية الأكثر شهرة ببرجها العالي وصورتها المميزة على الأفق.</p>
+              </div>
+              <div class="rounded-3xl border border-[#0b5960]/15 bg-white/60 p-5">
+                <p class="font-black text-[#0b5960]">السلاملك</p>
+                <p class="mt-2 text-sm text-[#62706e]">جزء تاريخي آخر من مجمع المنتزه الملكي داخل المساحات الخضراء.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-[#073f45] py-28 text-white">
+        <div class="container-shell">
+          <div class="grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
+            <div>
+              <p class="section-kicker !text-[#e8c77a]">ما الذي يستحق وقتك؟</p>
+              <h2 class="section-title mt-4">طبقتان للمشهد</h2>
+            </div>
+            <p class="max-w-2xl text-lg text-white/68 lg:justify-self-end">لا تحصر الزيارة في صورة القصر الأمامية. المنتزه يتغير كلما اقتربت من البحر: عمارة، نباتات قديمة، ثم ضوء متوسطي مفتوح.</p>
+          </div>
+
+          <div class="mt-14 grid gap-5 lg:grid-cols-12">
+            <figure class="group relative min-h-[500px] overflow-hidden rounded-[2.5rem] lg:col-span-7">
+              <img src={photos.garden} alt="حدائق قصر المنتزه والنخيل والممرات" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" referrerpolicy="no-referrer" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#052f33]/95 via-transparent to-transparent"></div>
+              <figcaption class="absolute inset-x-0 bottom-0 p-8">
+                <p class="text-sm font-black text-[#e8c77a]">01 · الحدائق</p>
+                <h3 class="mt-2 text-3xl font-black">امشِ ببطء بين النخيل والمحاور الخضراء</h3>
+                <p class="mt-3 max-w-xl text-white/70">المساحات كبيرة؛ اختر مسارك بدل محاولة قطع كل زاوية في زيارة قصيرة.</p>
+              </figcaption>
+            </figure>
+            <figure class="group relative min-h-[500px] overflow-hidden rounded-[2.5rem] lg:col-span-5">
+              <img src={photos.coast} alt="قصر المنتزه بالقرب من الساحل" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" referrerpolicy="no-referrer" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#052f33]/95 via-transparent to-transparent"></div>
+              <figcaption class="absolute inset-x-0 bottom-0 p-8">
+                <p class="text-sm font-black text-[#e8c77a]">02 · العمارة والبحر</p>
+                <h3 class="mt-2 text-3xl font-black">دع البرج يقودك إلى الواجهة الساحلية</h3>
+                <p class="mt-3 text-white/70">أفضل الزوايا تجمع القصر مع الماء بدل فصل المبنى عن سياقه.</p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="visit" class="py-28">
+        <div class="container-shell">
+          <div class="max-w-3xl">
+            <p class="section-kicker">خطط الزيارة</p>
+            <h2 class="section-title mt-4">كل ما تحتاجه قبل البوابة</h2>
+          </div>
+
+          <div class="mt-14 grid gap-7 lg:grid-cols-3">
+            <article class="arch-card rounded-[2.5rem] p-8">
+              <p class="text-sm font-black text-[#8f3d32]">01 · التذاكر / الرسوم</p>
+              <h3 class="mt-3 text-2xl font-black">اعتبر السعر رقمًا إرشاديًا لا وعدًا ثابتًا</h3>
+              <p class="mt-4 text-[#62706e]">أشارت تقارير محلية حديثة إلى رسم دخول للحدائق قدره 50 جنيهًا مصريًا للفرد. قد تكون هناك رسوم منفصلة لخدمات أو مناطق أخرى، لذلك تحقّق من لوحة الأسعار الرسمية عند المدخل.</p>
+            </article>
+            <article class="arch-card rounded-[2.5rem] p-8">
+              <p class="text-sm font-black text-[#8f3d32]">02 · مواقف السيارات</p>
+              <h3 class="mt-3 text-2xl font-black">خطط لركن السيارة قرب المدخل</h3>
+              <p class="mt-4 text-[#62706e]">ترتيبات دخول السيارات والتنقل الداخلي تتغير. لا تعتمد على القيادة داخل الحدائق؛ استخدم مناطق الانتظار المعتمدة قرب البوابات واسأل عن وسائل النقل الداخلية المتاحة.</p>
+            </article>
+            <article class="arch-card rounded-[2.5rem] p-8">
+              <p class="text-sm font-black text-[#8f3d32]">03 · أفضل وقت</p>
+              <h3 class="mt-3 text-2xl font-black">أكتوبر–أبريل ألطف للمشي</h3>
+              <p class="mt-4 text-[#62706e]">في الأشهر الأبرد يمكنك الاستمتاع بالمساحات المكشوفة مدة أطول. صيفًا اختر الصباح المبكر أو آخر النهار، واحمل ماءً وواقياً من الشمس.</p>
+            </article>
+          </div>
+
+          <div class="mt-8 rounded-[2.75rem] bg-[#efe4cc] p-7 md:p-10">
+            <div class="grid gap-8 lg:grid-cols-[.55fr_1.45fr]">
+              <div>
+                <p class="text-sm font-black text-[#8f3d32]">مسار مقترح · 3 ساعات</p>
+                <h3 class="mt-3 text-3xl font-black">زيارة بلا استعجال</h3>
+              </div>
+              <div class="space-y-7">
+                <div class="timeline-step">
+                  <p class="font-black">ابدأ بالواجهة الملكية</p>
+                  <p class="mt-1 text-sm text-[#61706d]">استغل ضوء الصباح أو ما قبل الغروب لتصوير البرج والأقواس من مسافة.</p>
+                </div>
+                <div class="timeline-step">
+                  <p class="font-black">تابع عبر الممرات الخضراء</p>
+                  <p class="mt-1 text-sm text-[#61706d]">اختر محورًا واحدًا أو اثنين بدل محاولة تغطية كل الحدائق.</p>
+                </div>
+                <div class="timeline-step">
+                  <p class="font-black">اختم عند البحر وجزيرة الشاي</p>
+                  <p class="mt-1 text-sm text-[#61706d]">اجعل نهاية الزيارة للماء والنسيم والاستراحة قبل العودة إلى البوابة.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="transport" class="bg-[#8f3d32] py-28 text-white">
+        <div class="container-shell grid gap-12 lg:grid-cols-[.75fr_1.25fr]">
+          <div>
+            <p class="section-kicker !text-[#f2d698]">الوصول بالتفصيل</p>
+            <h2 class="section-title mt-4">شرق الإسكندرية، على طريق الجيش</h2>
+            <p class="mt-6 max-w-xl text-lg text-white/74">موقع المنتزه على طرف الكورنيش الشرقي يجعله سهلًا بالسيارة، كما أن محطة قطار المنتزه المحلية خيار عملي لمن يتحرك داخل الإسكندرية.</p>
+            <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="mt-8 inline-flex rounded-full bg-white px-6 py-3 font-black text-[#8f3d32]">الاتجاهات على Google Maps ↗</a>
+          </div>
+
+          <div class="grid gap-4">
+            <article class="rounded-[2rem] border border-white/18 bg-white/8 p-7 backdrop-blur-sm">
+              <div class="flex gap-5">
+                <span class="text-2xl">🚕</span>
+                <div><h3 class="text-xl font-black">تاكسي / تطبيقات النقل</h3><p class="mt-2 text-white/72">من وسط الإسكندرية اسلك الكورنيش شرقًا باتجاه المندرة والمنتزه. زمن الرحلة يتبدل كثيرًا مع الازدحام، خصوصًا في الصيف وعطلات نهاية الأسبوع.</p></div>
+              </div>
+            </article>
+            <article class="rounded-[2rem] border border-white/18 bg-white/8 p-7 backdrop-blur-sm">
+              <div class="flex gap-5">
+                <span class="text-2xl">🚆</span>
+                <div><h3 class="text-xl font-black">قطار أبو قير المحلي</h3><p class="mt-2 text-white/72">انزل في محطة المنتزه، ثم أكمل مسافة قصيرة سيرًا أو بوسيلة محلية إلى بوابات الحدائق. راجع تشغيل الخط يوم الرحلة لأن أعمال التطوير قد تؤثر على الخدمة.</p></div>
+              </div>
+            </article>
+            <article class="rounded-[2rem] border border-white/18 bg-white/8 p-7 backdrop-blur-sm">
+              <div class="flex gap-5">
+                <span class="text-2xl">🚌</span>
+                <div><h3 class="text-xl font-black">الميكروباص / الحافلات على الكورنيش</h3><p class="mt-2 text-white/72">ابحث عن الخطوط المتجهة إلى المندرة، المعمورة أو أبو قير واطلب النزول عند المنتزه. اسأل السائق عن أقرب بوابة لهدفك داخل الحدائق.</p></div>
+              </div>
+            </article>
+            <article class="rounded-[2rem] border border-white/18 bg-white/8 p-7 backdrop-blur-sm">
+              <div class="flex gap-5">
+                <span class="text-2xl">✈</span>
+                <div><h3 class="text-xl font-black">من مطار برج العرب</h3><p class="mt-2 text-white/72">السيارة أو خدمة النقل المسبق هي الخيار الأبسط. المسافة طويلة عبر المدينة، فضع هامشًا إضافيًا للمرور بدل الاعتماد على زمن ثابت.</p></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="nearby" class="py-28">
+        <div class="container-shell">
+          <div class="grid gap-10 lg:grid-cols-2">
+            <div>
+              <p class="section-kicker">حول المنتزه · طعام</p>
+              <h2 class="mt-4 text-4xl font-black md:text-5xl">ماذا تأكل بعد المشي؟</h2>
+              <div class="mt-8 space-y-4">
+                <article class="rounded-[2rem] border border-[#0b5960]/14 bg-white/60 p-6">
+                  <div class="flex items-start justify-between gap-4"><div><h3 class="text-xl font-black">المأكولات البحرية في سيدي بشر</h3><p class="mt-2 text-sm text-[#63706f]">خيار طبيعي بعد زيارة ساحلية؛ تنتشر مطاعم السمك والمأكولات البحرية على امتداد سيدي بشر وشرق الإسكندرية، ويمكن اختيار الأنسب حسب التقييمات في يوم الزيارة.</p></div><span class="text-2xl">🐟</span></div>
+                </article>
+                <article class="rounded-[2rem] border border-[#0b5960]/14 bg-white/60 p-6">
+                  <div class="flex items-start justify-between gap-4"><div><h3 class="text-xl font-black">قهوة واستراحة قرب المنتزه</h3><p class="mt-2 text-sm text-[#63706f]">المقاهي حول المندرة والمنتزه مناسبة لاستراحة خفيفة قبل أو بعد الدخول؛ راجع التقييمات وساعات العمل وقتها.</p></div><span class="text-2xl">☕</span></div>
+                </article>
+                <article class="rounded-[2rem] border border-[#0b5960]/14 bg-white/60 p-6">
+                  <div class="flex items-start justify-between gap-4"><div><h3 class="text-xl font-black">حلويات ومثلجات على الكورنيش</h3><p class="mt-2 text-sm text-[#63706f]">خيار سريع في الأيام الدافئة، خصوصًا إذا كنت تكمل جولتك غربًا على الكورنيش.</p></div><span class="text-2xl">🍨</span></div>
+                </article>
+              </div>
+            </div>
+
+            <div>
+              <p class="section-kicker">حول المنتزه · أماكن</p>
+              <h2 class="mt-4 text-4xl font-black md:text-5xl">أكمل يومك بثلاث محطات</h2>
+              <div class="mt-8 space-y-4">
+                <article class="rounded-[2rem] bg-[#0b5960] p-6 text-white">
+                  <p class="text-xs font-black text-[#e7cb8a]">داخل/بجوار المجمع</p><h3 class="mt-2 text-xl font-black">جزيرة الشاي</h3><p class="mt-2 text-sm text-white/70">نقطة محببة للماء والغروب والصور؛ اجعلها نهاية هادئة لمسار الحدائق.</p>
+                </article>
+                <article class="rounded-[2rem] bg-[#0b5960] p-6 text-white">
+                  <p class="text-xs font-black text-[#e7cb8a]">قريبة شرقًا</p><h3 class="mt-2 text-xl font-black">شاطئ المعمورة</h3><p class="mt-2 text-sm text-white/70">مناسب إذا أردت تحويل الجولة إلى نصف يوم ساحلي أطول بعد الحدائق.</p>
+                </article>
+                <article class="rounded-[2rem] bg-[#0b5960] p-6 text-white">
+                  <p class="text-xs font-black text-[#e7cb8a]">باتجاه وسط المدينة</p><h3 class="mt-2 text-xl font-black">متحف المجوهرات الملكية</h3><p class="mt-2 text-sm text-white/70">امتداد ممتاز للثيمة الملكية داخل قصر سابق في منطقة زيزينيا؛ راجع مواعيد الدخول منفصلة.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="map" class="pb-28">
+        <div class="container-shell">
+          <div class="overflow-hidden rounded-[3rem] bg-[#073f45] shadow-2xl shadow-[#073f45]/15">
+            <div class="grid lg:grid-cols-[.42fr_.58fr]">
+              <div class="p-8 text-white md:p-12">
+                <p class="section-kicker !text-[#e7cb8a]">الخريطة</p>
+                <h2 class="mt-4 text-4xl font-black">بوصلتك إلى المنتزه</h2>
+                <p class="mt-5 text-white/70">العنوان: قصر المنتزه، طريق الجيش، المندرة بحري، المنتزه 2، محافظة الإسكندرية 5527001، مصر</p>
+                <div class="mt-7 rounded-3xl border border-white/15 p-5">
+                  <p class="text-sm text-white/55">Plus Code</p>
+                  <p class="mt-1 text-xl font-black">72Q8+99 · المنتزه 2</p>
+                </div>
+                <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-black text-[#f2d698]">افتح الخريطة بالحجم الكامل ↗</a>
+              </div>
+              <div class="map-frame min-h-[520px] bg-[#e8dfca]">
+                <iframe src={mapEmbed} title="خريطة قصر المنتزه في الإسكندرية" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="bg-[#efe4cc] py-28">
+        <div class="container-shell grid gap-12 lg:grid-cols-[.55fr_1.45fr]">
+          <div>
+            <p class="section-kicker">أسئلة شائعة</p>
+            <h2 class="section-title mt-4">قبل أن تذهب</h2>
+            <p class="mt-5 text-[#63706f]">المواعيد والأسعار وإتاحة المباني قد تتغير؛ لذلك صيغت الإجابات لتساعدك على التخطيط من دون تحويل المعلومات المتغيرة إلى وعود ثابتة.</p>
+          </div>
+          <div class="space-y-3">
+            {faqItems.map((item) => (
+              <details class="group rounded-[1.75rem] border border-[#0b5960]/12 bg-[#fffaf0] p-6">
+                <summary class="flex items-center justify-between gap-5 font-black">
+                  <span>{item.question}</span>
+                  <span class="faq-plus grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#0b5960] text-xl text-white">+</span>
+                </summary>
+                <p class="mt-4 border-t border-[#0b5960]/10 pt-4 text-[#63706f]">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-[#052f33] py-12 text-white">
+      <div class="container-shell grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+        <div>
+          <img src="/brand/logo.svg" alt="قصر المنتزه" class="h-12 w-auto" width="206" height="52" loading="lazy" />
+          <p class="mt-5 max-w-2xl text-sm leading-7 text-white/62">هذا موقع إرشادي مستقل وغير رسمي، ولا يتبع إدارة حدائق المنتزه أو رئاسة الجمهورية أو أي جهة حكومية.</p>
+          <details class="mt-4 max-w-3xl text-xs text-white/45">
+            <summary class="cursor-pointer font-bold text-white/60">اعتمادات الصور والمعلومات</summary>
+            <div class="mt-3 space-y-2 leading-6">
+              <p>الصور الفوتوغرافية من Wikimedia Commons بموجب تراخيص CC BY-SA لأصحابها: Ayman G. Abdeltawab، Asmaa azmy، ولاء/لا روسا، وAla’a Najjar. روابط الملفات المباشرة مستخدمة هنا للحفاظ على صور حقيقية للمكان.</p>
+              <p>المعلومات التاريخية مستندة إلى مواد السياحة المصرية، والمعلومات العملية صيغت كإرشادات قابلة للتغيير ويجب التحقق منها عند الزيارة.</p>
+            </div>
+          </details>
+        </div>
+        <div class="md:text-left">
+          <div class="flex flex-wrap gap-x-4 gap-y-2 text-xs font-bold text-white/55 md:justify-end">
+            <a href="/privacy/" class="hover:text-white">الخصوصية</a>
+            <a href="/terms/" class="hover:text-white">شروط الاستخدام</a>
+            <a href="/cookies/" class="hover:text-white">إعدادات الكوكيز</a>
+          </div>
+          <p class="mt-4 text-xs font-bold text-white/40">دليل قصر المنتزه · الإسكندرية</p>
+          <a href="#top" class="mt-3 inline-block text-sm font-black text-[#e7cb8a]">إلى أعلى ↑</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

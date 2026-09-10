@@ -1,0 +1,13 @@
+{
+  "name": "دليل قصر المنتزه",
+  "short_name": "قصر المنتزه",
+  "lang": "ar-EG",
+  "dir": "rtl",
+  "display": "standalone",
+  "background_color": "#f6efe2",
+  "theme_color": "#073f45",
+  "icons": [
+    {"src":"/brand/favicon-32.png","sizes":"32x32","type":"image/png"},
+    {"src":"/brand/apple-touch-icon.png","sizes":"180x180","type":"image/png"}
+  ]
+}
