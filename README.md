@@ -18,13 +18,13 @@
 
 ## النطاق في مكان واحد
 
-ضع النطاق الإنتاجي فقط في المتغير `site` داخل `astro.config.mjs`:
+النطاق الإنتاجي مضبوط مرة واحدة في المتغير `site` داخل `astro.config.mjs`:
 
 ```js
-const site = '';
+const site = 'https://montazapalace.com';
 ```
 
-عندما تبقى القيمة فارغة، لا يكتب المشروع نطاقًا تجريبيًا، ولا يخرج canonical مطلقًا أو `og:url` أو sitemap. بعد تسجيل النطاق املأ هذه القيمة فقط وأعد البناء؛ `@astrojs/sitemap` يعمل تلقائيًا عند وجود قيمة حقيقية.
+هذه القيمة هي مصدر الحقيقة لـ canonical و`og:url` وhreflang وsitemap (`/sitemap-index.xml`، المُعلَن أيضًا في `public/robots.txt`) وعنوان المنشأ داخل البيانات المنظمة. غيّرها في هذا المكان الوحيد فقط عند تغيير النطاق.
 
 ## التشغيل
 
@@ -45,17 +45,25 @@ pnpm deploy
 
 تستخدم الصفحة أربع صور فوتوغرافية حقيقية للمنتزه من Wikimedia Commons، مع توثيق المؤلف والترخيص في `PHOTO-SOURCES.md`.
 
-بيئة shell المستخدمة في إنشاء هذه الحزمة لا تستطيع تنزيل ثنائيات Wikimedia، لذلك لا أدّعي أن ملفات JPG الأصلية موجودة ماديًا في `public/images/`. لتوطينها دون تغيير أسماء المشروع لديك خياران مضمّنان:
+الملفات الأربعة الأصلية موجودة محليًا في `public/images/` وتُخدَم من داخل النطاق نفسه، لذا فإن `og:image` والبيانات المنظمة وصفحة الويب كلها على نفس الأصل. لتحديثها:
 
 ```bash
 pnpm photos:fetch
 ```
 
-أو افتح `REAL-PHOTOS-DOWNLOADER.html` في متصفح متصل بالإنترنت؛ سينشئ ZIP للصور الأربع. إلى أن توضع الصور محليًا، الصفحة تستخدم روابط Wikimedia الأصلية مباشرة كي تبقى الصور حقيقية ولا تظهر ملفات وهمية.
+أو افتح `REAL-PHOTOS-DOWNLOADER.html` في متصفح متصل بالإنترنت؛ سينشئ ZIP للصور الأربع.
 
 ## الخصوصية وGA4
 
 GA4 مضبوط على `G-HXM22WWPKP`، ولا يتم تحميله إلا إذا سمح الزائر بالتحليلات من `/cookies/`. الصفحات القانونية موجودة في `/privacy/` و`/terms/` و`/cookies/`.
+
+## تحسين الظهور (SEO Entity) وPWA
+
+- كيان واحد مُعلَن مرة واحدة (`entity` داخل `src/pages/index.astro`) ويُستهلك في وسوم الرأس والنص المرئي والبيانات المنظمة لضمان تطابق NAP (الاسم/العنوان) مع قائمة المكان على خرائط Google.
+- `TouristAttraction` + `LocalBusiness` + `LandmarksOrHistoricalBuildings` مع `@id` و`image` و`sameAs` و`hasMap`، بالإضافة إلى `WebSite` و`Organization` و`BreadcrumbList` و`FAQPage`.
+- TDK موسّع: canonical، hreflang (`ar-eg` + `x-default`)، Open Graph، Twitter، ووسوم geo/ICBM.
+- قسم `#sources` يعرض مصادر موثوقة: هيئة تنشيط السياحة في مصر، وزارة السياحة والآثار، ويكيبيديا، Wikidata `Q1350295`، Wikimedia Commons.
+- PWA: `public/site.webmanifest` + `public/sw.js` مسجَّل من الصفحة لدعم التثبيت والعرض دون اتصال.
 
 ## التحقق
 

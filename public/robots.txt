@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://montazapalace.com/sitemap-index.xml

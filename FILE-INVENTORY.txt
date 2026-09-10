@@ -13,6 +13,7 @@ STATIC-VERIFICATION.log
 astro.config.mjs
 package.json
 pnpm-lock.yaml
+pnpm-workspace.yaml
 public/brand/apple-touch-icon.png
 public/brand/favicon-16.png
 public/brand/favicon-16x16.png
@@ -21,8 +22,13 @@ public/brand/favicon-32x32.png
 public/brand/favicon.svg
 public/brand/logo.svg
 public/images/README.txt
+public/images/montaza-palace-coast.jpg
+public/images/montaza-palace-garden.jpg
+public/images/montaza-palace-hero.jpg
+public/images/montaza-palace-main.jpg
 public/robots.txt
 public/site.webmanifest
+public/sw.js
 scripts/fetch-photos.mjs
 scripts/verify-delivery.sh
 scripts/verify-source.mjs

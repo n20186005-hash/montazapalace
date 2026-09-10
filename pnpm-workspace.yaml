@@ -1,0 +1,6 @@
+# pnpm v11+ 设置文件（仅含根包，项目为单包结构）。
+# pnpm v11 默认 strictDepBuilds=true：未在 allowBuilds 中明确允许的依赖
+# 其 lifecycle 脚本会被拦截并以 ERR_PNPM_IGNORED_BUILDS 退出，导致 CI 失败。
+# esbuild(vite/astro 依赖) 的安装脚本需要执行以链接平台二进制。
+allowBuilds:
+  esbuild: true

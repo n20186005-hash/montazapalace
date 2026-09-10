@@ -1,37 +1,86 @@
 ---
 import '../styles/global.css';
 
-const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const SITE = 'https://montazapalace.com';
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : `${SITE}/`;
 
-const mapUrl = 'https://maps.app.goo.gl/q697EC591sWcm8yh8';
+// === كيان واحد (Single Entity) ===
+// مصدر واحد للحقيقة: نفس الاسم والعنوان والإحداثيات يُستهلكان في وسوم الرأس والبيانات المنظمة والنص المرئي
+// للحفاظ على تطابق NAP (الاسم/العنوان) مع قائمة المكان على خرائط Google.
+const entity = {
+  name: 'Montaza Palace',
+  nameAr: 'قصر المنتزه',
+  aliasAr: 'المنتزه',
+  city: 'الإسكندرية',
+  cityEn: 'Alexandria',
+  region: 'محافظة الإسكندرية',
+  regionEn: 'Alexandria Governorate',
+  country: 'مصر',
+  countryEn: 'Egypt',
+  countryCode: 'EG',
+  postalCode: '5527001',
+  street: 'طريق الجيش، المندرة بحري، المنتزه 2',
+  streetEn: 'El-Gaish Rd, Al Mandarah Bahri, Montaza 2',
+  latitude: 31.288468758560075,
+  longitude: 30.013416677163775,
+  plusCode: '72Q8+99',
+  ratingValue: '4.5',
+  ratingCount: '19045',
+  mapUrl: 'https://maps.app.goo.gl/q697EC591sWcm8yh8',
+  tourismUrl: 'https://www.experienceegypt.eg/',
+  ministryUrl: 'https://mota.gov.eg/',
+  wikipedia: 'https://en.wikipedia.org/wiki/Montaza_Palace',
+  wikidata: 'https://www.wikidata.org/wiki/Q1350295',
+  commons: 'https://commons.wikimedia.org/wiki/Category:Montaza_Palace'
+};
+
+const mapUrl = entity.mapUrl;
 const mapEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6059.946987210147!2d30.013416677163775!3d31.288468758560075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f5d05ef533eccb%3A0xae82154762ef9858!2sMontaza%20Palace!5e1!3m2!1sar!2seg!4v1789018679731!5m2!1sar!2seg';
 
+// صور حقيقية للمكان موطّنة داخل النطاق نفسه (تخدم og:image والبيانات المنظمة وعرض الصفحة).
 const photos = {
-  hero: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Montazah_Palace_and_Gardens.jpg',
-  palace: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Montaza_Palace_-_ALEXANDRIA.jpg',
-  garden: 'https://upload.wikimedia.org/wikipedia/commons/b/b2/Montaza_Palace_garden_001.JPG',
-  coast: 'https://upload.wikimedia.org/wikipedia/commons/8/80/Montaza_Palace%2C_Alexandria.jpg'
+  hero: '/images/montaza-palace-hero.jpg',
+  palace: '/images/montaza-palace-main.jpg',
+  garden: '/images/montaza-palace-garden.jpg',
+  coast: '/images/montaza-palace-coast.jpg'
 };
+
+const abs = (path: string) => new URL(path, SITE).href;
+const pageUrl = canonicalUrl || `${SITE}/`;
+const attractionId = `${SITE}/#attraction`;
+const websiteId = `${SITE}/#website`;
+const organizationId = `${SITE}/#organization`;
+const ogImage = abs(photos.hero);
+const heroImageAlt = `${entity.nameAr} (${entity.name}) — المنظر الرئيسي في ${entity.city}، ${entity.country}`;
+const socialTitle = `${entity.nameAr} (${entity.name}) - Alexandria Visitor Guide & Location`;
 
 const attractionSchema = {
   '@context': 'https://schema.org',
-  '@type': ['TouristAttraction', 'LocalBusiness'],
-  name: 'قصر المنتزه',
-  alternateName: 'Montaza Palace',
-  description: 'دليل عربي مستقل لزيارة قصر وحدائق المنتزه الملكية على ساحل الإسكندرية.',
+  '@type': ['TouristAttraction', 'LocalBusiness', 'LandmarksOrHistoricalBuildings'],
+  '@id': attractionId,
+  name: entity.name,
+  alternateName: [entity.nameAr, 'Montazah Palace', `${entity.name} ${entity.cityEn}`, `${entity.nameAr} ${entity.city}`],
+  description: `دليل عربي مستقل لزيارة قصر وحدائق المنتزه الملكية على ساحل ${entity.city}، ${entity.country} — Montaza Palace visitor guide.`,
+  url: pageUrl,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+  image: [abs(photos.hero), abs(photos.palace), abs(photos.garden), abs(photos.coast)],
+  isAccessibleForFree: false,
+  publicAccess: true,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'قصر المنتزه، طريق الجيش، المندرة بحري، المنتزه 2',
-    addressLocality: 'الإسكندرية',
-    addressRegion: 'محافظة الإسكندرية',
-    postalCode: '5527001',
-    addressCountry: 'EG'
+    streetAddress: `${entity.street} (${entity.streetEn})`,
+    addressLocality: `${entity.city} / ${entity.cityEn}`,
+    addressRegion: `${entity.region} / ${entity.regionEn}`,
+    postalCode: entity.postalCode,
+    addressCountry: entity.countryCode
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 31.288468758560075,
-    longitude: 30.013416677163775
+    latitude: entity.latitude,
+    longitude: entity.longitude
   },
+  hasMap: entity.mapUrl,
+  sameAs: [entity.mapUrl, entity.wikipedia, entity.wikidata, entity.commons, entity.tourismUrl, entity.ministryUrl],
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
     dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -40,11 +89,58 @@ const attractionSchema = {
   },
   aggregateRating: {
     '@type': 'AggregateRating',
-    ratingValue: '4.5',
-    ratingCount: '19045',
+    ratingValue: entity.ratingValue,
+    ratingCount: entity.ratingCount,
     bestRating: '5'
   },
-  ...(canonicalUrl ? { url: canonicalUrl } : {})
+  additionalProperty: [
+    { '@type': 'PropertyValue', name: 'Plus Code', value: `${entity.plusCode} ${entity.city}` }
+  ]
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': websiteId,
+  url: `${SITE}/`,
+  name: 'دليل قصر المنتزه · Montaza Palace Guide',
+  alternateName: 'Montaza Palace Guide',
+  inLanguage: ['ar', 'en'],
+  publisher: { '@id': organizationId },
+  about: { '@id': attractionId }
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': organizationId,
+  name: 'دليل قصر المنتزه (Montaza Palace Guide)',
+  url: `${SITE}/`,
+  logo: { '@type': 'ImageObject', url: `${SITE}/brand/logo.svg` },
+  description: 'موقع إرشادي مستقل وغير رسمي عن قصر وحدائق المنتزه في الإسكندرية.',
+  sameAs: [entity.wikipedia, entity.wikidata, entity.commons]
+};
+
+// تسلسل جغرافي مرئي مطابق لتسلسل الاسم الرسمي → المدينة → المحافظة → الدولة.
+const geoHierarchy = [entity.nameAr, entity.city, entity.region, entity.country];
+
+// روابط المصادر الموثوقة (E-E-A-T) المستخدمة في قسم المصادر وفي sameAs.
+const sources = [
+  { label: 'قائمة المكان على خرائط Google', labelEn: 'Google Maps place listing', url: entity.mapUrl, note: `${entity.plusCode} · ${entity.city}` },
+  { label: 'بوابة السياحة الرسمية في مصر (هيئة تنشيط السياحة)', labelEn: 'Egypt Tourism Authority (Experience Egypt)', url: entity.tourismUrl, note: entity.countryEn },
+  { label: 'وزارة السياحة والآثار', labelEn: 'Ministry of Tourism and Antiquities', url: entity.ministryUrl, note: entity.countryEn },
+  { label: 'ويكيبيديا — Montaza Palace', labelEn: 'Wikipedia — Montaza Palace', url: entity.wikipedia, note: entity.cityEn },
+  { label: 'Wikidata — Montaza Palace (Q1350295)', labelEn: 'Wikidata entity Q1350295', url: entity.wikidata, note: 'Knowledge Graph' },
+  { label: 'Wikimedia Commons — تصنيف قصر المنتزه', labelEn: 'Wikimedia Commons category', url: entity.commons, note: 'Photos' }
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'montazapalace.com', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: `${entity.nameAr} (${entity.name})`, item: pageUrl }
+  ]
 };
 
 const faqItems = [
@@ -67,6 +163,18 @@ const faqItems = [
   {
     question: 'هل المكان مناسب للعائلات وكبار السن؟',
     answer: 'المساحات المفتوحة واسعة ومناسبة للعائلات، لكن المسافات داخل الحدائق قد تكون طويلة. ارتدِ حذاءً مريحًا واسأل عن وسائل التنقل الداخلية المتاحة عند الوصول.'
+  },
+  {
+    question: 'أين يقع قصر المنتزه (Montaza Palace) بالتحديد؟',
+    answer: 'يقع قصر المنتزه في شرق الإسكندرية على طريق الجيش بمنطقة المندرة بحري (المنتزه 2)، ورمز المكان على خرائط Google هو 72Q8+99. يمكن فتح الموقع والاتجاهات مباشرة من رابط الخريطة داخل هذه الصفحة.'
+  },
+  {
+    question: 'كيف أصل إلى قصر المنتزه بالمواصلات العامة؟',
+    answer: 'أقرب خيار معتاد هو قطار أبو قير المحلي مع النزول في محطة المنتزه ثم إكمال مسافة قصيرة إلى البوابات، كما تعمل الميكروباصات والحافلات على الكورنيش باتجاه المندرة والمعمورة وأبو قير. راجع حالة تشغيل الخط يوم الرحلة.'
+  },
+  {
+    question: 'هل يُسمح بالتصوير داخل المنتزه؟',
+    answer: 'التصوير الشخصي للحدائق والواجهات الخارجية أمر معتاد، لكن قد توجد قيود على التصوير التجاري أو بالمعدات الكبيرة أو قرب المباني ذات الاستخدام الرسمي. اسأل الحراسة عند البوابة قبل استخدام معدات احترافية.'
   }
 ];
 
@@ -83,8 +191,8 @@ const faqSchema = {
   }))
 };
 
-const title = 'قصر المنتزه | دليل زيارة الحدائق الملكية في الإسكندرية';
-const description = 'دليل عربي مستقل لزيارة قصر المنتزه وحدائقه الملكية: التاريخ، الرسوم، المواقف، المواصلات، أفضل وقت، المطاعم والمعالم القريبة وخريطة Google.';
+const title = `قصر المنتزه (${entity.name}) في ${entity.city} | دليل الزيارة والموقع`;
+const description = `دليل زيارة قصر المنتزه (${entity.name}) في ${entity.city}، ${entity.country}: الموقع والخريطة، المواعيد والرسوم، أفضل وقت للزيارة، الوصول بالسيارة والقطار، ومعالم قريبة مثل جزيرة الشاي وشاطئ المعمورة.`;
 ---
 <!doctype html>
 <html lang="ar" dir="rtl">
@@ -93,16 +201,50 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0b5960" />
     <meta name="description" content={description} />
-    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <title>{title}</title>
 
-    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <!-- Canonical + hreflang: يمنع تشتّت الوزن بين روابط المعاملات ويوحّد عنوان المنشأ -->
+    <link rel="canonical" href={pageUrl} />
+    <link rel="alternate" hreflang="ar-eg" href={pageUrl} />
+    <link rel="alternate" hreflang="x-default" href={pageUrl} />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+    <!-- Geo / NAP: نفس الاسم والعنوان والإحداثيات المستخدمة في قائمة خرائط Google -->
+    <meta name="geo.region" content="EG-ALX" />
+    <meta name="geo.placename" content={`${entity.cityEn}, ${entity.countryEn}`} />
+    <meta name="geo.position" content={`${entity.latitude};${entity.longitude}`} />
+    <meta name="ICBM" content={`${entity.latitude}, ${entity.longitude}`} />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="دليل قصر المنتزه · Montaza Palace Guide" />
+    <meta property="og:title" content={socialTitle} />
+    <meta property="og:description" content={description} />
     <meta property="og:locale" content="ar_EG" />
-    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="4388" />
+    <meta property="og:image:height" content="3185" />
+    <meta property="og:image:alt" content={heroImageAlt} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={socialTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={heroImageAlt} />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="application-name" content="دليل قصر المنتزه" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="المنتزه" />
 
     <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32x32.png" />
@@ -110,6 +252,9 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
     <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-touch-icon.png" />
 
     <script type="application/ld+json" set:html={JSON.stringify(attractionSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
 
     <script is:inline>
@@ -125,6 +270,14 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
         document.head.appendChild(script);
       })();
     </script>
+
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </head>
   <body>
     <header class="absolute inset-x-0 top-0 z-40 border-b border-white/15 bg-[#073f45]/20 backdrop-blur-md">
@@ -133,6 +286,7 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
           <img src="/brand/logo.svg" alt="شعار قصر المنتزه" class="h-12 w-auto" width="206" height="52" />
         </a>
         <nav class="hidden items-center gap-6 text-sm font-bold text-white/90 md:flex" aria-label="التنقل الرئيسي">
+          <a href="#about" class="hover:text-white">التعريف</a>
           <a href="#story" class="hover:text-white">الحكاية</a>
           <a href="#visit" class="hover:text-white">خطط الزيارة</a>
           <a href="#transport" class="hover:text-white">الوصول</a>
@@ -149,12 +303,12 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
       <section class="relative flex min-h-[92svh] items-end overflow-hidden bg-[#073f45]">
         <img
           src={photos.hero}
-          alt="قصر المنتزه وبرجه المطل على البحر المتوسط"
+          alt={heroImageAlt}
           class="absolute inset-0 h-full w-full object-cover object-center"
-          width="1000"
-          height="750"
+          width="4388"
+          height="3185"
           fetchpriority="high"
-          referrerpolicy="no-referrer"
+          decoding="async"
         />
         <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,37,40,.20),rgba(4,37,40,.56)_45%,rgba(4,37,40,.94))]"></div>
         <div class="absolute inset-x-0 bottom-0 h-44 opacity-25 palace-pattern"></div>
@@ -165,7 +319,10 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
             <span class="rounded-full border border-[#d9b76b]/60 bg-[#d9b76b]/10 px-4 py-2 text-[#ffe5a9]">★ 4.5 · 19,045 تقييمًا</span>
           </div>
           <p class="mb-3 text-sm font-black tracking-[.23em] text-[#e9c97d]">قصر وحدائق ملكية على طرف المدينة</p>
-          <h1 class="max-w-4xl text-[clamp(3.7rem,10vw,8.6rem)] font-black leading-[.86] tracking-[-.055em]">قصر<br />المنتزه</h1>
+          <h1 class="max-w-4xl text-[clamp(3.7rem,10vw,8.6rem)] font-black leading-[.86] tracking-[-.055em]">
+            قصر<br />المنتزه
+            <span class="mt-4 block text-[clamp(1rem,2.6vw,1.7rem)] font-black leading-snug tracking-normal text-white/85">Montaza Palace · الإسكندرية</span>
+          </h1>
           <div class="mt-9 grid max-w-4xl gap-7 border-t border-white/20 pt-7 md:grid-cols-[1.4fr_.8fr]">
             <p class="max-w-2xl text-lg leading-8 text-white/84 md:text-xl">
               حدائق واسعة، عمارة ملكية بطابع متوسطي، وممرات تنفتح على البحر. هذا الدليل يساعدك على زيارة المنتزه كما هو: مكان للتنزّه والتصوير قبل أن يكون مجرد «قصر» خلف بوابة.
@@ -208,11 +365,61 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
         </div>
       </section>
 
+      <section id="about" class="pb-24">
+        <div class="container-shell">
+          <nav aria-label="مسار التنقل والانتماء الجغرافي" class="border-b border-[#0b5960]/12 pb-5">
+            <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold text-[#8b9a97]">
+              <li><a href="/" class="hover:text-[#0b5960]">montazapalace.com</a></li>
+              <li aria-hidden="true">›</li>
+              <li><span class="text-[#0b5960]">قصر المنتزه (Montaza Palace)</span></li>
+              {geoHierarchy.map((step, i) => (
+                <li class="flex items-center gap-x-2">
+                  <span aria-hidden="true">›</span>
+                  <span class={i === geoHierarchy.length - 1 ? 'text-[#8f3d32]' : ''}>{step}</span>
+                </li>
+              ))}
+            </ol>
+          </nav>
+
+          <div class="mt-12 grid gap-10 lg:grid-cols-[.5fr_1.5fr]">
+            <div>
+              <p class="section-kicker">تعرّف · About Montaza Palace</p>
+              <h2 class="section-title mt-4">عن قصر المنتزه (Montaza Palace)</h2>
+            </div>
+            <div class="space-y-5">
+              <p class="text-lg leading-9 text-[#1f4a4a]">
+                مرحبًا بكم في <strong>قصر المنتزه</strong>، المعروف أيضًا باسم <strong>Montaza Palace</strong>. يقع هذا الكيان في قلب <strong>الإسكندرية</strong>، محافظة <strong>الإسكندرية</strong>، <strong>مصر</strong>، ويمثّل محطة أساسية للزوّار القادمين إلى هذه المنطقة الساحلية.
+              </p>
+              <p lang="en" dir="ltr" class="leading-8 text-[#62706e]">
+                <strong>Montaza Palace</strong> (<span lang="ar" dir="rtl">قصر المنتزه</span>) is the official name of the royal palace and gardens in <strong>Alexandria</strong>, <strong>Alexandria Governorate</strong>, <strong>Egypt</strong> — the same entity this independent guide documents at <strong>montazapalace.com</strong>.
+              </p>
+              <p class="leading-8 text-[#62706e]">
+                عند زيارة <strong>قصر المنتزه (Montaza Palace)</strong> يمكن للزوار استكشاف معالم تاريخية ونقاط اهتمام قريبة، ومنها <strong>جزيرة الشاي</strong> و<strong>شاطئ المعمورة</strong>.
+              </p>
+              <dl class="grid gap-4 sm:grid-cols-3">
+                <div class="rounded-3xl border border-[#0b5960]/15 bg-white/60 p-5">
+                  <dt class="text-xs font-black tracking-[.14em] text-[#8f3d32]">الاسم الرسمي</dt>
+                  <dd class="mt-2 font-black">قصر المنتزه (Montaza Palace)</dd>
+                </div>
+                <div class="rounded-3xl border border-[#0b5960]/15 bg-white/60 p-5">
+                  <dt class="text-xs font-black tracking-[.14em] text-[#8f3d32]">العنوان</dt>
+                  <dd class="mt-2 font-black">طريق الجيش، المندرة بحري، المنتزه 2</dd>
+                </div>
+                <div class="rounded-3xl border border-[#0b5960]/15 bg-white/60 p-5">
+                  <dt class="text-xs font-black tracking-[.14em] text-[#8f3d32]">Plus Code</dt>
+                  <dd class="mt-2 font-black">{entity.plusCode} · الإسكندرية</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="story" class="pb-28">
         <div class="container-shell grid items-center gap-12 lg:grid-cols-[.92fr_1.08fr]">
           <div class="relative order-2 lg:order-1">
             <div class="overflow-hidden rounded-t-[10rem] rounded-b-[2rem] border-[10px] border-white shadow-2xl shadow-[#0b5960]/10">
-              <img src={photos.palace} alt="واجهة قصر المنتزه التاريخية في الإسكندرية" class="aspect-[4/5] object-cover" loading="lazy" referrerpolicy="no-referrer" />
+              <img src={photos.palace} alt={`واجهة قصر المنتزه التاريخية (${entity.name}) في ${entity.city}، ${entity.country}`} class="aspect-[4/5] object-cover" width="3968" height="2976" loading="lazy" decoding="async" />
             </div>
             <div class="absolute -bottom-6 -right-4 rounded-[2rem] bg-[#8f3d32] px-7 py-5 text-white shadow-xl md:-right-8">
               <p class="text-xs font-bold text-white/70">بدأت قصة الحدائق الملكية</p>
@@ -221,8 +428,8 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
           </div>
 
           <div class="order-1 lg:order-2 lg:pr-10">
-            <p class="section-kicker">حكاية المنتزه</p>
-            <h2 class="section-title mt-4">قصرٌ يرى البحر، وحديقةٌ صنعت ضاحية كاملة.</h2>
+            <p class="section-kicker">حكاية المنتزه · History &amp; Significance</p>
+            <h2 class="section-title mt-4">قصر المنتزه: قصرٌ يرى البحر، وحديقةٌ صنعت ضاحية كاملة.</h2>
             <div class="royal-rule my-8"><span>✦</span></div>
             <p class="section-copy text-lg">
               نشأت حدائق المنتزه الملكية في أواخر القرن التاسع عشر ضمن مشروع ملكي على الطرف الشرقي للإسكندرية. ومع الوقت أصبحت المنطقة مجمعًا يجمع حدائق ساحلية وقصورًا تاريخية أبرزها السلاملك والحرملك، وامتزج في عمارتها الإلهام الإيطالي والعثماني والتفاصيل المتوسطية.
@@ -248,15 +455,15 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
         <div class="container-shell">
           <div class="grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
             <div>
-              <p class="section-kicker !text-[#e8c77a]">ما الذي يستحق وقتك؟</p>
-              <h2 class="section-title mt-4">طبقتان للمشهد</h2>
+              <p class="section-kicker !text-[#e8c77a]">ما الذي يستحق وقتك؟ · What to See</p>
+              <h2 class="section-title mt-4">ما يستحق وقتك في قصر المنتزه: طبقتان للمشهد</h2>
             </div>
             <p class="max-w-2xl text-lg text-white/68 lg:justify-self-end">لا تحصر الزيارة في صورة القصر الأمامية. المنتزه يتغير كلما اقتربت من البحر: عمارة، نباتات قديمة، ثم ضوء متوسطي مفتوح.</p>
           </div>
 
           <div class="mt-14 grid gap-5 lg:grid-cols-12">
             <figure class="group relative min-h-[500px] overflow-hidden rounded-[2.5rem] lg:col-span-7">
-              <img src={photos.garden} alt="حدائق قصر المنتزه والنخيل والممرات" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" referrerpolicy="no-referrer" />
+              <img src={photos.garden} alt={`حدائق قصر المنتزه (${entity.name}) والنخيل والممرات في ${entity.city}، ${entity.country}`} class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" width="4047" height="3035" loading="lazy" decoding="async" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#052f33]/95 via-transparent to-transparent"></div>
               <figcaption class="absolute inset-x-0 bottom-0 p-8">
                 <p class="text-sm font-black text-[#e8c77a]">01 · الحدائق</p>
@@ -265,7 +472,7 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
               </figcaption>
             </figure>
             <figure class="group relative min-h-[500px] overflow-hidden rounded-[2.5rem] lg:col-span-5">
-              <img src={photos.coast} alt="قصر المنتزه بالقرب من الساحل" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" referrerpolicy="no-referrer" />
+              <img src={photos.coast} alt={`قصر المنتزه (${entity.name}) على ساحل ${entity.city}، ${entity.country}`} class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" width="5184" height="3456" loading="lazy" decoding="async" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#052f33]/95 via-transparent to-transparent"></div>
               <figcaption class="absolute inset-x-0 bottom-0 p-8">
                 <p class="text-sm font-black text-[#e8c77a]">02 · العمارة والبحر</p>
@@ -280,8 +487,8 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
       <section id="visit" class="py-28">
         <div class="container-shell">
           <div class="max-w-3xl">
-            <p class="section-kicker">خطط الزيارة</p>
-            <h2 class="section-title mt-4">كل ما تحتاجه قبل البوابة</h2>
+            <p class="section-kicker">خطط الزيارة · Location &amp; How to Visit</p>
+            <h2 class="section-title mt-4">دليل زيارة قصر المنتزه — كل ما تحتاجه قبل البوابة</h2>
           </div>
 
           <div class="mt-14 grid gap-7 lg:grid-cols-3">
@@ -330,8 +537,8 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
       <section id="transport" class="bg-[#8f3d32] py-28 text-white">
         <div class="container-shell grid gap-12 lg:grid-cols-[.75fr_1.25fr]">
           <div>
-            <p class="section-kicker !text-[#f2d698]">الوصول بالتفصيل</p>
-            <h2 class="section-title mt-4">شرق الإسكندرية، على طريق الجيش</h2>
+            <p class="section-kicker !text-[#f2d698]">الوصول بالتفصيل · Getting There</p>
+            <h2 class="section-title mt-4">الوصول إلى قصر المنتزه: شرق الإسكندرية، على طريق الجيش</h2>
             <p class="mt-6 max-w-xl text-lg text-white/74">موقع المنتزه على طرف الكورنيش الشرقي يجعله سهلًا بالسيارة، كما أن محطة قطار المنتزه المحلية خيار عملي لمن يتحرك داخل الإسكندرية.</p>
             <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="mt-8 inline-flex rounded-full bg-white px-6 py-3 font-black text-[#8f3d32]">الاتجاهات على Google Maps ↗</a>
           </div>
@@ -369,8 +576,8 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
         <div class="container-shell">
           <div class="grid gap-10 lg:grid-cols-2">
             <div>
-              <p class="section-kicker">حول المنتزه · طعام</p>
-              <h2 class="mt-4 text-4xl font-black md:text-5xl">ماذا تأكل بعد المشي؟</h2>
+              <p class="section-kicker">حول المنتزه · طعام قريب</p>
+              <h2 class="mt-4 text-4xl font-black md:text-5xl">ماذا تأكل قرب قصر المنتزه بعد المشي؟</h2>
               <div class="mt-8 space-y-4">
                 <article class="rounded-[2rem] border border-[#0b5960]/14 bg-white/60 p-6">
                   <div class="flex items-start justify-between gap-4"><div><h3 class="text-xl font-black">المأكولات البحرية في سيدي بشر</h3><p class="mt-2 text-sm text-[#63706f]">خيار طبيعي بعد زيارة ساحلية؛ تنتشر مطاعم السمك والمأكولات البحرية على امتداد سيدي بشر وشرق الإسكندرية، ويمكن اختيار الأنسب حسب التقييمات في يوم الزيارة.</p></div><span class="text-2xl">🐟</span></div>
@@ -385,8 +592,8 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
             </div>
 
             <div>
-              <p class="section-kicker">حول المنتزه · أماكن</p>
-              <h2 class="mt-4 text-4xl font-black md:text-5xl">أكمل يومك بثلاث محطات</h2>
+              <p class="section-kicker">حول المنتزه · Landmarks &amp; Attractions Around</p>
+              <h2 class="mt-4 text-4xl font-black md:text-5xl">معالم قريبة من قصر المنتزه: أكمل يومك بثلاث محطات</h2>
               <div class="mt-8 space-y-4">
                 <article class="rounded-[2rem] bg-[#0b5960] p-6 text-white">
                   <p class="text-xs font-black text-[#e7cb8a]">داخل/بجوار المجمع</p><h3 class="mt-2 text-xl font-black">جزيرة الشاي</h3><p class="mt-2 text-sm text-white/70">نقطة محببة للماء والغروب والصور؛ اجعلها نهاية هادئة لمسار الحدائق.</p>
@@ -408,17 +615,22 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
           <div class="overflow-hidden rounded-[3rem] bg-[#073f45] shadow-2xl shadow-[#073f45]/15">
             <div class="grid lg:grid-cols-[.42fr_.58fr]">
               <div class="p-8 text-white md:p-12">
-                <p class="section-kicker !text-[#e7cb8a]">الخريطة</p>
-                <h2 class="mt-4 text-4xl font-black">بوصلتك إلى المنتزه</h2>
-                <p class="mt-5 text-white/70">العنوان: قصر المنتزه، طريق الجيش، المندرة بحري، المنتزه 2، محافظة الإسكندرية 5527001، مصر</p>
+                <p class="section-kicker !text-[#e7cb8a]">الخريطة · Map &amp; Location</p>
+                <h2 class="mt-4 text-4xl font-black">موقع قصر المنتزه — بوصلتك إلى المنتزه</h2>
+                <address class="mt-5 not-italic text-white/70">
+                  <span class="font-black text-white/85">قصر المنتزه (Montaza Palace)</span><br />
+                  طريق الجيش، المندرة بحري، المنتزه 2، محافظة الإسكندرية 5527001، مصر<br />
+                  <span class="text-white/55" dir="ltr">El-Gaish Rd, Al Mandarah Bahri, Montaza 2, Alexandria Governorate 5527001, Egypt</span>
+                </address>
                 <div class="mt-7 rounded-3xl border border-white/15 p-5">
                   <p class="text-sm text-white/55">Plus Code</p>
-                  <p class="mt-1 text-xl font-black">72Q8+99 · المنتزه 2</p>
+                  <p class="mt-1 text-xl font-black">{entity.plusCode} · {entity.city}</p>
                 </div>
                 <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-black text-[#f2d698]">افتح الخريطة بالحجم الكامل ↗</a>
+                <p class="mt-4 max-w-sm text-xs leading-6 text-white/55">الإحداثيات المسجّلة: {entity.latitude}، {entity.longitude} — مطابقة لقائمة المكان على خرائط Google.</p>
               </div>
               <div class="map-frame min-h-[520px] bg-[#e8dfca]">
-                <iframe src={mapEmbed} title="خريطة قصر المنتزه في الإسكندرية" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <iframe src={mapEmbed} width="100%" height="520" title="خريطة موقع قصر المنتزه (Montaza Palace) في الإسكندرية" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
               </div>
             </div>
           </div>
@@ -428,8 +640,8 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
       <section id="faq" class="bg-[#efe4cc] py-28">
         <div class="container-shell grid gap-12 lg:grid-cols-[.55fr_1.45fr]">
           <div>
-            <p class="section-kicker">أسئلة شائعة</p>
-            <h2 class="section-title mt-4">قبل أن تذهب</h2>
+            <p class="section-kicker">أسئلة شائعة · FAQ</p>
+            <h2 class="section-title mt-4">أسئلة شائعة عن قصر المنتزه قبل أن تذهب</h2>
             <p class="mt-5 text-[#63706f]">المواعيد والأسعار وإتاحة المباني قد تتغير؛ لذلك صيغت الإجابات لتساعدك على التخطيط من دون تحويل المعلومات المتغيرة إلى وعود ثابتة.</p>
           </div>
           <div class="space-y-3">
@@ -445,6 +657,33 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
           </div>
         </div>
       </section>
+
+      <section id="sources" class="bg-[#073f45] py-24 text-white">
+        <div class="container-shell">
+          <div class="max-w-3xl">
+            <p class="section-kicker !text-[#e7cb8a]">مصادر وروابط موثوقة · Sources</p>
+            <h2 class="section-title mt-4">التحقق والمصادر</h2>
+            <p class="mt-5 text-white/70">
+              للاطلاع على التحديثات الرسمية ومعلومات السياحة الإقليمية، زُر البوابة الرسمية للسياحة في مصر، مع مصادر المعرفة الحرة وقائمة المكان على خرائط Google.
+            </p>
+            <p lang="en" dir="ltr" class="mt-3 text-sm text-white/55">
+              For official updates and regional tourism information, visit the Egypt official tourism portal and the reference sources below.
+            </p>
+          </div>
+          <ul class="mt-10 grid gap-4 md:grid-cols-2">
+            {sources.map((source) => (
+              <li class="rounded-[2rem] border border-white/15 bg-white/5 p-6">
+                <a href={source.url} target="_blank" rel="noopener noreferrer" class="font-black text-[#f2d698] underline-offset-4 hover:underline">{source.label} ↗</a>
+                <p class="mt-2 text-sm text-white/60" dir="ltr">{source.labelEn}</p>
+                <p class="mt-1 text-xs text-white/45">{source.note}</p>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-10 text-xs leading-6 text-white/45">
+            هذا الموقع دليل مستقل وغير رسمي، ولا يتبع إدارة حدائق المنتزه أو رئاسة الجمهورية أو وزارة السياحة والآثار. تُراجَع البيانات العملية عند البوابة يوم الزيارة.
+          </p>
+        </div>
+      </section>
     </main>
 
     <footer class="bg-[#052f33] py-12 text-white">
@@ -452,6 +691,10 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
         <div>
           <img src="/brand/logo.svg" alt="قصر المنتزه" class="h-12 w-auto" width="206" height="52" loading="lazy" />
           <p class="mt-5 max-w-2xl text-sm leading-7 text-white/62">هذا موقع إرشادي مستقل وغير رسمي، ولا يتبع إدارة حدائق المنتزه أو رئاسة الجمهورية أو أي جهة حكومية.</p>
+          <address class="mt-5 not-italic text-sm leading-7 text-white/62">
+            <span class="font-black text-white/80">قصر المنتزه (Montaza Palace)</span><br />
+            طريق الجيش، المندرة بحري، المنتزه 2، محافظة الإسكندرية 5527001، مصر
+          </address>
           <details class="mt-4 max-w-3xl text-xs text-white/45">
             <summary class="cursor-pointer font-bold text-white/60">اعتمادات الصور والمعلومات</summary>
             <div class="mt-3 space-y-2 leading-6">
@@ -465,6 +708,7 @@ const description = 'دليل عربي مستقل لزيارة قصر المنت
             <a href="/privacy/" class="hover:text-white">الخصوصية</a>
             <a href="/terms/" class="hover:text-white">شروط الاستخدام</a>
             <a href="/cookies/" class="hover:text-white">إعدادات الكوكيز</a>
+            <a href="#sources" class="hover:text-white">المصادر</a>
           </div>
           <p class="mt-4 text-xs font-bold text-white/40">دليل قصر المنتزه · الإسكندرية</p>
           <a href="#top" class="mt-3 inline-block text-sm font-black text-[#e7cb8a]">إلى أعلى ↑</a>

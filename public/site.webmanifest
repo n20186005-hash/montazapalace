@@ -1,13 +1,27 @@
 {
-  "name": "دليل قصر المنتزه",
+  "id": "/",
+  "name": "دليل قصر المنتزه · Montaza Palace Guide",
   "short_name": "قصر المنتزه",
+  "description": "دليل زيارة قصر المنتزه (Montaza Palace) في الإسكندرية، مصر: الموقع والخريطة، المواعيد، الرسوم والمعالم القريبة.",
   "lang": "ar-EG",
   "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#f6efe2",
   "theme_color": "#073f45",
+  "categories": ["travel", "lifestyle", "education"],
   "icons": [
+    {"src":"/brand/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"},
     {"src":"/brand/favicon-32.png","sizes":"32x32","type":"image/png"},
+    {"src":"/brand/favicon-32x32.png","sizes":"32x32","type":"image/png"},
+    {"src":"/brand/favicon-16x16.png","sizes":"16x16","type":"image/png"},
     {"src":"/brand/apple-touch-icon.png","sizes":"180x180","type":"image/png"}
-  ]
+  ],
+  "shortcuts": [
+    {"name":"الخريطة والموقع","short_name":"الخريطة","url":"/#map"},
+    {"name":"الأسئلة الشائعة","short_name":"الأسئلة","url":"/#faq"}
+  ],
+  "prefer_related_applications": false
 }

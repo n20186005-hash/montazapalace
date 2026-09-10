@@ -8,7 +8,7 @@ PASS  prettier-plugin-astro exact 0.14.1
 PASS  typescript exact 6.0.3
 PASS  packageManager pnpm@11.25.0
 PASS  Node pin 24.20.0
-PASS  no pnpm-workspace.yaml
+PASS  pnpm-workspace.yaml allowBuilds esbuild
 PASS  lock importer matches @astrojs/check@0.9.10
 PASS  lock importer matches @astrojs/sitemap@3.7.3
 PASS  lock importer matches @tailwindcss/vite@4.3.3
@@ -20,6 +20,7 @@ PASS  lock importer matches typescript@6.0.3
 PASS  exists astro.config.mjs
 PASS  exists wrangler.jsonc
 PASS  exists pnpm-lock.yaml
+PASS  exists pnpm-workspace.yaml
 PASS  exists src/pages/index.astro
 PASS  exists src/pages/privacy/index.astro
 PASS  exists src/pages/terms/index.astro
@@ -30,18 +31,36 @@ PASS  exists public/brand/favicon.svg
 PASS  exists public/brand/favicon-16x16.png
 PASS  exists public/brand/favicon-32x32.png
 PASS  exists public/brand/apple-touch-icon.png
+PASS  exists public/robots.txt
+PASS  exists public/site.webmanifest
+PASS  exists public/sw.js
 PASS  exists PHOTO-SOURCES.md
 PASS  exists REAL-PHOTOS-DOWNLOADER.html
 PASS  source scan clean
 PASS  marker TouristAttraction
 PASS  marker LocalBusiness
+PASS  marker LandmarksOrHistoricalBuildings
+PASS  marker WebSite
+PASS  marker Organization
+PASS  marker BreadcrumbList
 PASS  marker FAQPage
+PASS  marker @id
+PASS  marker sameAs
+PASS  marker hasMap
+PASS  marker isAccessibleForFree
+PASS  marker geo.position
+PASS  marker hreflang
 PASS  marker G-HXM22WWPKP
 PASS  marker !1sar!2seg
+PASS  marker id="about"
 PASS  marker id="visit"
 PASS  marker id="transport"
 PASS  marker id="nearby"
+PASS  marker id="map"
+PASS  marker id="sources"
 PASS  marker id="faq"
-PASS  conditional sitemap / single site config
+PASS  marker /site.webmanifest
+PASS  marker /sw.js
+PASS  production site + sitemap enabled
 
 STATIC SOURCE VERIFICATION: PASS
