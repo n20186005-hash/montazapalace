@@ -25,7 +25,7 @@ const entity = {
   longitude: 30.013416677163775,
   plusCode: '72Q8+99',
   ratingValue: '4.5',
-  ratingCount: '19045',
+  ratingCount: '19070',
   mapUrl: 'https://maps.app.goo.gl/q697EC591sWcm8yh8',
   tourismUrl: 'https://www.experienceegypt.eg/',
   ministryUrl: 'https://mota.gov.eg/',
@@ -47,6 +47,7 @@ const photos = {
 
 const abs = (path: string) => new URL(path, SITE).href;
 const pageUrl = canonicalUrl || `${SITE}/`;
+const enUrl = `${SITE}/en/`;
 const attractionId = `${SITE}/#attraction`;
 const websiteId = `${SITE}/#website`;
 const organizationId = `${SITE}/#organization`;
@@ -145,6 +146,14 @@ const breadcrumbSchema = {
 
 const faqItems = [
   {
+    question: 'هل قصر المنتزه مفتوح للزيارة؟',
+    answer: 'الحدائق والواجهات الساحلية هي الجزء المفتوح للزيارة العامة؛ أما المباني الداخلية للقصر فقد تخضع لاستخدام رسمي أو ترتيبات خاصة ولا تُفتح بصورة منتظمة. خطط للزيارة على أساس الحدائق والمشهد الخارجي، وتأكّد عند البوابة يوم زيارتك من أي فتح استثنائي أو مواعيد معلنة.'
+  },
+  {
+    question: 'ما هي مواعيد عمل قصر المنتزه؟',
+    answer: 'تشير المواعيد الإرشادية المتداولة إلى فتح الحدائق من 08:00 صباحًا حتى 23:00 ليلًا يوميًا، لكن المواعيد والخدمات قابلة للتغيير حسب الموسم والمناسبات. راجع لوحة المواعيد المعلنة عند المدخل قبل الدخول ولا تعتمد على رقم ثابت كضمان.'
+  },
+  {
     question: 'هل يمكن دخول قصر الحرملك من الداخل؟',
     answer: 'لا تفترض أن مباني القصر الداخلية مفتوحة دائمًا للزيارة العامة؛ بعض أجزاء المجمع ذات استخدام رسمي أو تخضع لترتيبات خاصة. خطط للزيارة على أساس الحدائق والمشاهد الخارجية، واسأل عند البوابة عن أي فتح استثنائي.'
   },
@@ -191,8 +200,8 @@ const faqSchema = {
   }))
 };
 
-const title = `قصر المنتزه (${entity.name}) في ${entity.city} | دليل الزيارة والموقع`;
-const description = `دليل زيارة قصر المنتزه (${entity.name}) في ${entity.city}، ${entity.country}: الموقع والخريطة، المواعيد والرسوم، أفضل وقت للزيارة، الوصول بالسيارة والقطار، ومعالم قريبة مثل جزيرة الشاي وشاطئ المعمورة.`;
+const title = `قصر المنتزه (${entity.name}) الإسكندرية | مواعيد الزيارة، التذاكر، وهل مفتوح؟`;
+const description = `قصر المنتزه (${entity.name}) في ${entity.city}: هل القصر مفتوح للزيارة؟ مواعيد العمل ورسوم الدخول، أفضل وقت للزيارة، الوصول بالسيارة والقطار، والمعالم القريبة مثل جزيرة الشاي وشاطئ المعمورة.`;
 ---
 <!doctype html>
 <html lang="ar" dir="rtl">
@@ -206,7 +215,8 @@ const description = `دليل زيارة قصر المنتزه (${entity.name}) 
 
     <!-- Canonical + hreflang: يمنع تشتّت الوزن بين روابط المعاملات ويوحّد عنوان المنشأ -->
     <link rel="canonical" href={pageUrl} />
-    <link rel="alternate" hreflang="ar-eg" href={pageUrl} />
+    <link rel="alternate" hreflang="ar" href={pageUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
     <link rel="alternate" hreflang="x-default" href={pageUrl} />
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
 
@@ -296,6 +306,7 @@ const description = `دليل زيارة قصر المنتزه (${entity.name}) 
         <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="rounded-full border border-white/45 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-white hover:text-[#073f45]">
           افتح الخريطة
         </a>
+        <a href="/en/" hreflang="en" lang="en" class="rounded-full border border-[#d9b76b]/60 px-3 py-2 text-sm font-extrabold text-[#ffe5a9] transition hover:bg-[#d9b76b]/15">EN</a>
       </div>
     </header>
 
@@ -316,7 +327,7 @@ const description = `دليل زيارة قصر المنتزه (${entity.name}) 
         <div class="container-shell relative z-10 pb-16 pt-40 text-white md:pb-24">
           <div class="mb-7 flex flex-wrap items-center gap-3 text-sm font-bold">
             <span class="rounded-full border border-white/30 bg-white/10 px-4 py-2 backdrop-blur">الإسكندرية · البحر المتوسط</span>
-            <span class="rounded-full border border-[#d9b76b]/60 bg-[#d9b76b]/10 px-4 py-2 text-[#ffe5a9]">★ 4.5 · 19,045 تقييمًا</span>
+            <span class="rounded-full border border-[#d9b76b]/60 bg-[#d9b76b]/10 px-4 py-2 text-[#ffe5a9]">★ 4.5 · 19,070 تقييمًا</span>
           </div>
           <p class="mb-3 text-sm font-black tracking-[.23em] text-[#e9c97d]">قصر وحدائق ملكية على طرف المدينة</p>
           <h1 class="max-w-4xl text-[clamp(3.7rem,10vw,8.6rem)] font-black leading-[.86] tracking-[-.055em]">

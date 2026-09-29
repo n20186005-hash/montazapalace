@@ -1,0 +1,729 @@
+---
+import '../../styles/global.css';
+
+const SITE = 'https://montazapalace.com';
+const arUrl = `${SITE}/`;
+const enUrl = `${SITE}/en/`;
+const pageUrl = enUrl;
+
+// === Single Entity (shared with the Arabic page via the same #attraction @id) ===
+const entity = {
+  name: 'Montaza Palace',
+  nameAr: 'قصر المنتزه',
+  aliasAr: 'المنتزه',
+  city: 'الإسكندرية',
+  cityEn: 'Alexandria',
+  region: 'محافظة الإسكندرية',
+  regionEn: 'Alexandria Governorate',
+  country: 'مصر',
+  countryEn: 'Egypt',
+  countryCode: 'EG',
+  postalCode: '5527001',
+  street: 'طريق الجيش، المندرة بحري، المنتزه 2',
+  streetEn: 'El-Gaish Rd, Al Mandarah Bahri, Montaza 2',
+  latitude: 31.288468758560075,
+  longitude: 30.013416677163775,
+  plusCode: '72Q8+99',
+  ratingValue: '4.5',
+  ratingCount: '19070',
+  mapUrl: 'https://maps.app.goo.gl/q697EC591sWcm8yh8',
+  tourismUrl: 'https://www.experienceegypt.eg/',
+  ministryUrl: 'https://mota.gov.eg/',
+  wikipedia: 'https://en.wikipedia.org/wiki/Montaza_Palace',
+  wikidata: 'https://www.wikidata.org/wiki/Q1350295',
+  commons: 'https://commons.wikimedia.org/wiki/Category:Montaza_Palace'
+};
+
+const mapUrl = entity.mapUrl;
+const mapEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6059.946987210147!2d30.013416677163775!3d31.288468758560075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f5d05ef533eccb%3A0xae82154762ef9858!2sMontaza%20Palace!5e1!3m2!1sar!2seg!4v1789018679731!5m2!1sar!2seg';
+
+const photos = {
+  hero: '/images/montaza-palace-hero.jpg',
+  palace: '/images/montaza-palace-main.jpg',
+  garden: '/images/montaza-palace-garden.jpg',
+  coast: '/images/montaza-palace-coast.jpg'
+};
+
+const abs = (path: string) => new URL(path, SITE).href;
+const attractionId = `${SITE}/#attraction`;
+const websiteId = `${SITE}/#website`;
+const organizationId = `${SITE}/#organization`;
+const ogImage = abs(photos.hero);
+const heroImageAlt = `${entity.name} (${entity.nameAr}) — the main view in ${entity.cityEn}, ${entity.countryEn}`;
+const socialTitle = `${entity.name} (${entity.nameAr}) - Alexandria Visitor Guide & Location`;
+
+const attractionSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['TouristAttraction', 'LocalBusiness', 'LandmarksOrHistoricalBuildings'],
+  '@id': attractionId,
+  name: entity.name,
+  alternateName: [entity.nameAr, 'Montazah Palace', `${entity.name} ${entity.cityEn}`, `${entity.nameAr} ${entity.city}`],
+  description: `An independent English guide to visiting the Montaza Palace and royal gardens on the coast of ${entity.cityEn}, ${entity.countryEn}.`,
+  url: arUrl,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': arUrl },
+  image: [abs(photos.hero), abs(photos.palace), abs(photos.garden), abs(photos.coast)],
+  isAccessibleForFree: false,
+  publicAccess: true,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${entity.streetEn} (${entity.street})`,
+    addressLocality: `${entity.cityEn} / ${entity.city}`,
+    addressRegion: `${entity.regionEn} / ${entity.region}`,
+    postalCode: entity.postalCode,
+    addressCountry: entity.countryCode
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: entity.latitude,
+    longitude: entity.longitude
+  },
+  hasMap: entity.mapUrl,
+  sameAs: [entity.mapUrl, entity.wikipedia, entity.wikidata, entity.commons, entity.tourismUrl, entity.ministryUrl],
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '08:00',
+    closes: '23:00'
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: entity.ratingValue,
+    ratingCount: entity.ratingCount,
+    bestRating: '5'
+  },
+  additionalProperty: [
+    { '@type': 'PropertyValue', name: 'Plus Code', value: `${entity.plusCode} ${entity.cityEn}` }
+  ]
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': websiteId,
+  url: `${SITE}/`,
+  name: 'Montaza Palace Guide · دليل قصر المنتزه',
+  alternateName: 'دليل قصر المنتزه',
+  inLanguage: ['ar', 'en'],
+  publisher: { '@id': organizationId },
+  about: { '@id': attractionId }
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': organizationId,
+  name: 'Montaza Palace Guide (دليل قصر المنتزه)',
+  url: `${SITE}/`,
+  logo: { '@type': 'ImageObject', url: `${SITE}/brand/logo.svg` },
+  description: 'An independent, unofficial visitor guide to the Montaza Palace and gardens in Alexandria.',
+  sameAs: [entity.wikipedia, entity.wikidata, entity.commons]
+};
+
+const geoHierarchy = [entity.name, entity.cityEn, entity.regionEn, entity.countryEn];
+
+const sources = [
+  { label: 'Google Maps place listing', labelEn: 'Google Maps place listing', url: entity.mapUrl, note: `${entity.plusCode} · ${entity.cityEn}` },
+  { label: 'Egypt Tourism Authority (Experience Egypt)', labelEn: 'Egypt Tourism Authority (Experience Egypt)', url: entity.tourismUrl, note: entity.countryEn },
+  { label: 'Ministry of Tourism and Antiquities', labelEn: 'Ministry of Tourism and Antiquities', url: entity.ministryUrl, note: entity.countryEn },
+  { label: 'Wikipedia — Montaza Palace', labelEn: 'Wikipedia — Montaza Palace', url: entity.wikipedia, note: entity.cityEn },
+  { label: 'Wikidata — Montaza Palace (Q1350295)', labelEn: 'Wikidata entity Q1350295', url: entity.wikidata, note: 'Knowledge Graph' },
+  { label: 'Wikimedia Commons — Montaza Palace category', labelEn: 'Wikimedia Commons category', url: entity.commons, note: 'Photos' }
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'montazapalace.com', item: `${SITE}/` },
+    { '@type': 'ListItem', position: 2, name: `${entity.name} (${entity.nameAr})`, item: pageUrl }
+  ]
+};
+
+const faqItems = [
+  {
+    question: 'Is Montaza Palace open to visitors?',
+    answer: 'The gardens and the coastal facades are the part open to the general public. The palace interior buildings may be used officially or under special arrangements and are not opened on a regular basis. Plan your visit around the gardens and the exterior scenery, and confirm at the gate on your visit day whether any exceptional opening or published hours apply.'
+  },
+  {
+    question: 'What are the opening hours of Montaza Palace?',
+    answer: 'Commonly cited indicative hours are that the gardens open daily from 08:00 to 23:00, but hours and services can change by season and events. Check the published schedule at the entrance before entering and do not treat any fixed figure as a guarantee.'
+  },
+  {
+    question: 'Can you enter the Haramlik palace interior?',
+    answer: 'Do not assume the palace interior buildings are always open to the public; parts of the complex have official use or special arrangements. Plan around the gardens and exterior views, and ask at the gate about any exceptional opening.'
+  },
+  {
+    question: 'How much time do I need to visit Montaza?',
+    answer: 'A comfortable visit to the gardens, coastal facades and photo points usually takes about two and a half to four hours, and can run longer if you add a break or a nearby beach.'
+  },
+  {
+    question: 'What is the best time for photography?',
+    answer: 'Early morning gives you calm and soft light, while the hours before sunset suit the royal facades and the sea. In summer, avoid midday because of the heat.'
+  },
+  {
+    question: 'Is there an entrance fee?',
+    answer: 'There is a fee to enter the gardens, and additional services or areas may be priced separately. Local recent reports mentioned a guideline of about 50 Egyptian pounds per person; verify the announced price at the gate on your visit day.'
+  },
+  {
+    question: 'Is it suitable for families and elderly visitors?',
+    answer: 'The open spaces are wide and suitable for families, but distances inside the gardens can be long. Wear comfortable shoes and ask about available internal transport options on arrival.'
+  },
+  {
+    question: 'Where exactly is Montaza Palace located?',
+    answer: 'Montaza Palace sits in eastern Alexandria on El-Gaish Rd in the Al Mandarah Bahri area (Montaza 2), and its Google Maps Plus Code is 72Q8+99. You can open the location and directions directly from the map link on this page.'
+  },
+  {
+    question: 'How do I get to Montaza Palace by public transport?',
+    answer: 'The usual closest option is the local Abu Qir train, alighting at Montaza station and then a short distance to the gates; microbuses and buses also run along the corniche toward Al Mandarah, Maamoura and Abu Qir. Check the line operation on your trip day.'
+  },
+  {
+    question: 'Is it spelled Montaza or Montazah Palace?',
+    answer: 'Both spellings appear in travel listings; "Montazah Palace" is a common romanization variant of the same royal palace and gardens in Alexandria, Egypt. The official English name used on this guide is Montaza Palace (قصر المنتزه).'
+  },
+  {
+    question: 'Is photography allowed inside the palace?',
+    answer: 'Personal photography of the gardens and exterior facades is normal, but there may be restrictions on commercial photography, large equipment, or near officially used buildings. Ask the guards at the gate before using professional equipment.'
+  }
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+};
+
+const title = `${entity.name} (${entity.nameAr}) Alexandria | Visiting Hours, Tickets & Is It Open?`;
+const description = `${entity.name} (${entity.nameAr}) in ${entity.cityEn}, ${entity.countryEn}: is the palace open to visitors? Opening hours, garden entry fees, best time to visit, how to get there by car or train, and nearby sights like Tea Island and Maamoura Beach.`;
+---
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b5960" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <title>{title}</title>
+
+    <!-- Canonical + hreflang: consolidates signal across www/http variants and declares the bilingual pair -->
+    <link rel="canonical" href={pageUrl} />
+    <link rel="alternate" hreflang="ar" href={arUrl} />
+    <link rel="alternate" hreflang="en" href={pageUrl} />
+    <link rel="alternate" hreflang="x-default" href={arUrl} />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+    <!-- Geo / NAP: same name, address and coordinates as the Google Maps place listing -->
+    <meta name="geo.region" content="EG-ALX" />
+    <meta name="geo.placename" content={`${entity.cityEn}, ${entity.countryEn}`} />
+    <meta name="geo.position" content={`${entity.latitude};${entity.longitude}`} />
+    <meta name="ICBM" content={`${entity.latitude}, ${entity.longitude}`} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Montaza Palace Guide · دليل قصر المنتزه" />
+    <meta property="og:title" content={socialTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ar_EG" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="4388" />
+    <meta property="og:image:height" content="3185" />
+    <meta property="og:image:alt" content={heroImageAlt} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={socialTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={heroImageAlt} />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="application-name" content="Montaza Palace Guide" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Montaza Palace" />
+
+    <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-touch-icon.png" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(attractionSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+
+    <script is:inline>
+      (() => {
+        if (localStorage.getItem('montaza-analytics-consent') !== 'granted') return;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){ window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-HXM22WWPKP', { anonymize_ip: true });
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP';
+        document.head.appendChild(script);
+      })();
+    </script>
+
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <header class="absolute inset-x-0 top-0 z-40 border-b border-white/15 bg-[#073f45]/20 backdrop-blur-md">
+      <div class="container-shell flex h-20 items-center justify-between gap-5">
+        <a href="#top" class="flex items-center gap-3" aria-label="Back to top">
+          <img src="/brand/logo.svg" alt="Montaza Palace logo" class="h-12 w-auto" width="206" height="52" />
+        </a>
+        <nav class="hidden items-center gap-6 text-sm font-bold text-white/90 md:flex" aria-label="Main navigation">
+          <a href="#about" class="hover:text-white">About</a>
+          <a href="#story" class="hover:text-white">History</a>
+          <a href="#visit" class="hover:text-white">Plan your visit</a>
+          <a href="#transport" class="hover:text-white">Getting there</a>
+          <a href="#nearby" class="hover:text-white">Around Montaza</a>
+          <a href="#faq" class="hover:text-white">FAQ</a>
+        </nav>
+        <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="rounded-full border border-white/45 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-white hover:text-[#073f45]">
+          Open map
+        </a>
+        <a href="/" hreflang="ar" lang="ar" class="rounded-full border border-[#d9b76b]/60 px-3 py-2 text-sm font-extrabold text-[#ffe5a9] transition hover:bg-[#d9b76b]/15">العربية</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="relative flex min-h-[92svh] items-end overflow-hidden bg-[#073f45]">
+        <img
+          src={photos.hero}
+          alt={heroImageAlt}
+          class="absolute inset-0 h-full w-full object-cover object-center"
+          width="4388"
+          height="3185"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,37,40,.20),rgba(4,37,40,.56)_45%,rgba(4,37,40,.94))]"></div>
+        <div class="absolute inset-x-0 bottom-0 h-44 opacity-25 palace-pattern"></div>
+
+        <div class="container-shell relative z-10 pb-16 pt-40 text-white md:pb-24">
+          <div class="mb-7 flex flex-wrap items-center gap-3 text-sm font-bold">
+            <span class="rounded-full border border-white/30 bg-white/10 px-4 py-2 backdrop-blur">Alexandria · Mediterranean</span>
+            <span class="rounded-full border border-[#d9b76b]/60 bg-[#d9b76b]/10 px-4 py-2 text-[#ffe5a9]">★ 4.5 · 19,070 reviews</span>
+          </div>
+          <p class="mb-3 text-sm font-black tracking-[.23em] text-[#e9c97d]">Royal palace &amp; gardens at the edge of the city</p>
+          <h1 class="max-w-4xl text-[clamp(3.7rem,10vw,8.6rem)] font-black leading-[.86] tracking-[-.055em]">
+            Montaza<br />Palace
+            <span class="mt-4 block text-[clamp(1rem,2.6vw,1.7rem)] font-black leading-snug tracking-normal text-white/85">قصر المنتزه · Alexandria</span>
+          </h1>
+          <div class="mt-9 grid max-w-4xl gap-7 border-t border-white/20 pt-7 md:grid-cols-[1.4fr_.8fr]">
+            <p class="max-w-2xl text-lg leading-8 text-white/84 md:text-xl">
+              Wide gardens, Mediterranean royal architecture, and promenades opening onto the sea. This guide helps you visit Montaza as it is: a place to stroll and photograph before it is just a "palace" behind a gate.
+            </p>
+            <div class="flex items-start gap-3 md:justify-end">
+              <span class="mt-1 text-2xl text-[#e9c97d]">⌖</span>
+              <p class="max-w-xs text-sm leading-7 text-white/78">El-Gaish Rd, Al Mandarah Bahri, Montaza 2, Alexandria Governorate</p>
+            </div>
+          </div>
+          <p class="photo-credit absolute bottom-3 left-0 rounded-e-full px-4 py-1.5">Real photo · Wikimedia Commons · Ayman G. Abdeltawab</p>
+        </div>
+      </section>
+
+      <section class="relative z-20 -mt-7 pb-24">
+        <div class="container-shell grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <article class="arch-card rounded-[2rem] p-6">
+            <div class="info-icon mb-5">◷</div>
+            <p class="text-xs font-black tracking-[.14em] text-[#8f3d32]">Indicative hours</p>
+            <p class="mt-2 text-2xl font-black">08:00–23:00</p>
+            <p class="mt-1 text-sm text-[#667573]">Verify on your visit day; hours may change.</p>
+          </article>
+          <article class="arch-card rounded-[2rem] p-6">
+            <div class="info-icon mb-5">EGP</div>
+            <p class="text-xs font-black tracking-[.14em] text-[#8f3d32]">Guideline garden fee</p>
+            <p class="mt-2 text-2xl font-black">50 EGP</p>
+            <p class="mt-1 text-sm text-[#667573]">A recently cited figure, not a guarantee of the current price.</p>
+          </article>
+          <article class="arch-card rounded-[2rem] p-6">
+            <div class="info-icon mb-5">⌛</div>
+            <p class="text-xs font-black tracking-[.14em] text-[#8f3d32]">Suggested duration</p>
+            <p class="mt-2 text-2xl font-black">2.5–4 hours</p>
+            <p class="mt-1 text-sm text-[#667573]">For strolling, the sea, photos and a break.</p>
+          </article>
+          <article class="arch-card rounded-[2rem] p-6">
+            <div class="info-icon mb-5">☀</div>
+            <p class="text-xs font-black tracking-[.14em] text-[#8f3d32]">Best light</p>
+            <p class="mt-2 text-2xl font-black">Morning or pre-sunset</p>
+            <p class="mt-1 text-sm text-[#667573]">Gentler for walking and prettier for the coastal facades.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="about" class="pb-24">
+        <div class="container-shell">
+          <nav aria-label="Breadcrumb and geographic belonging" class="border-b border-[#0b5960]/12 pb-5">
+            <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold text-[#8b9a97]">
+              <li><a href="/" class="hover:text-[#0b5960]">montazapalace.com</a></li>
+              <li aria-hidden="true">›</li>
+              <li><span class="text-[#0b5960]">Montaza Palace (قصر المنتزه)</span></li>
+              {geoHierarchy.map((step, i) => (
+                <li class="flex items-center gap-x-2">
+                  <span aria-hidden="true">›</span>
+                  <span class={i === geoHierarchy.length - 1 ? 'text-[#8f3d32]' : ''}>{step}</span>
+                </li>
+              ))}
+            </ol>
+          </nav>
+
+          <div class="mt-12 grid gap-10 lg:grid-cols-[.5fr_1.5fr]">
+            <div>
+              <p class="section-kicker">Get to know · About Montaza Palace</p>
+              <h2 class="section-title mt-4">About Montaza Palace (قصر المنتزه)</h2>
+            </div>
+            <div class="space-y-5">
+              <p class="text-lg leading-9 text-[#1f4a4a]">
+                Welcome to <strong>Montaza Palace</strong>, also known as <strong>قصر المنتزه</strong>. This entity sits in the heart of <strong>Alexandria</strong>, <strong>Alexandria Governorate</strong>, <strong>Egypt</strong>, and is a key stop for visitors coming to this coastal region.
+              </p>
+              <p class="leading-8 text-[#62706e]">
+                <strong>Montaza Palace</strong> (<span lang="ar" dir="rtl">قصر المنتزه</span>) is the official name of the royal palace and gardens in <strong>Alexandria</strong>, <strong>Alexandria Governorate</strong>, <strong>Egypt</strong> — the same entity this independent guide documents at <strong>montazapalace.com</strong>.
+              </p>
+              <p class="leading-8 text-[#62706e]">
+                When visiting <strong>Montaza Palace (قصر المنتزه)</strong>, travelers can explore nearby historical landmarks and points of interest, including <strong>Tea Island</strong> and <strong>Maamoura Beach</strong>.
+              </p>
+              <dl class="grid gap-4 sm:grid-cols-3">
+                <div class="rounded-3xl border border-[#0b5960]/15 bg-white/60 p-5">
+                  <dt class="text-xs font-black tracking-[.14em] text-[#8f3d32]">Official name</dt>
+                  <dd class="mt-2 font-black">Montaza Palace (قصر المنتزه)</dd>
+                </div>
+                <div class="rounded-3xl border border-[#0b5960]/15 bg-white/60 p-5">
+                  <dt class="text-xs font-black tracking-[.14em] text-[#8f3d32]">Address</dt>
+                  <dd class="mt-2 font-black">El-Gaish Rd, Al Mandarah Bahri, Montaza 2</dd>
+                </div>
+                <div class="rounded-3xl border border-[#0b5960]/15 bg-white/60 p-5">
+                  <dt class="text-xs font-black tracking-[.14em] text-[#8f3d32]">Plus Code</dt>
+                  <dd class="mt-2 font-black">{entity.plusCode} · Alexandria</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="story" class="pb-28">
+        <div class="container-shell grid items-center gap-12 lg:grid-cols-[.92fr_1.08fr]">
+          <div class="relative order-2 lg:order-1">
+            <div class="overflow-hidden rounded-t-[10rem] rounded-b-[2rem] border-[10px] border-white shadow-2xl shadow-[#0b5960]/10">
+              <img src={photos.palace} alt={`Historic facade of Montaza Palace (${entity.nameAr}) in ${entity.cityEn}, ${entity.countryEn}`} class="aspect-[4/5] object-cover" width="3968" height="2976" loading="lazy" decoding="async" />
+            </div>
+            <div class="absolute -bottom-6 -right-4 rounded-[2rem] bg-[#8f3d32] px-7 py-5 text-white shadow-xl md:-right-8">
+              <p class="text-xs font-bold text-white/70">The royal gardens began</p>
+              <p class="text-3xl font-black">under Khedive Abbas Helmy II</p>
+            </div>
+          </div>
+
+          <div class="order-1 lg:order-2 lg:pr-10">
+            <p class="section-kicker">The Montaza story · History &amp; Significance</p>
+            <h2 class="section-title mt-4">Montaza Palace: a palace facing the sea, and a garden that built a whole district.</h2>
+            <div class="royal-rule my-8"><span>✦</span></div>
+            <p class="section-copy text-lg">
+              The Montaza royal gardens began in the late nineteenth century as a royal project on the eastern edge of Alexandria. Over time the area became a complex combining coastal gardens and historic palaces — most prominently the Salamlek and Haramlik — blending Italian, Ottoman and Mediterranean details.
+            </p>
+            <p class="section-copy mt-5">
+              Today the visit is not treated as a traditional museum tour; the greater value for the visitor is the exterior scene: the towers, arches, palms, green axes, small islands and the sea edge. Some palace buildings have official use and may not be regularly open to the interior.
+            </p>
+            <div class="mt-8 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-3xl border border-[#0b5960]/15 bg-white/60 p-5">
+                <p class="font-black text-[#0b5960]">Haramlik</p>
+                <p class="mt-2 text-sm text-[#62706e]">The most famous royal block, known for its tall tower and distinctive silhouette on the skyline.</p>
+              </div>
+              <div class="rounded-3xl border border-[#0b5960]/15 bg-white/60 p-5">
+                <p class="font-black text-[#0b5960]">Salamlek</p>
+                <p class="mt-2 text-sm text-[#62706e]">Another historic part of the Montaza royal complex within the green spaces.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-[#073f45] py-28 text-white">
+        <div class="container-shell">
+          <div class="grid gap-10 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
+            <div>
+              <p class="section-kicker !text-[#e8c77a]">What is worth your time? · What to See</p>
+              <h2 class="section-title mt-4">What is worth your time at Montaza Palace: two layers of scene</h2>
+            </div>
+            <p class="max-w-2xl text-lg text-white/68 lg:justify-self-end">Do not limit the visit to the front palace photo. Montaza changes as you get closer to the sea: architecture, old plants, then open Mediterranean light.</p>
+          </div>
+
+          <div class="mt-14 grid gap-5 lg:grid-cols-12">
+            <figure class="group relative min-h-[500px] overflow-hidden rounded-[2.5rem] lg:col-span-7">
+              <img src={photos.garden} alt={`Montaza Palace gardens (${entity.nameAr}) with palms and promenades in ${entity.cityEn}, ${entity.countryEn}`} class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" width="4047" height="3035" loading="lazy" decoding="async" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#052f33]/95 via-transparent to-transparent"></div>
+              <figcaption class="absolute inset-x-0 bottom-0 p-8">
+                <p class="text-sm font-black text-[#e8c77a]">01 · Gardens</p>
+                <h3 class="mt-2 text-3xl font-black">Walk slowly among the palms and green axes</h3>
+                <p class="mt-3 max-w-xl text-white/70">The spaces are large; choose your route instead of trying to cover every corner in a short visit.</p>
+              </figcaption>
+            </figure>
+            <figure class="group relative min-h-[500px] overflow-hidden rounded-[2.5rem] lg:col-span-5">
+              <img src={photos.coast} alt={`Montaza Palace (${entity.nameAr}) on the coast of ${entity.cityEn}, ${entity.countryEn}`} class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" width="5184" height="3456" loading="lazy" decoding="async" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#052f33]/95 via-transparent to-transparent"></div>
+              <figcaption class="absolute inset-x-0 bottom-0 p-8">
+                <p class="text-sm font-black text-[#e8c77a]">02 · Architecture &amp; sea</p>
+                <h3 class="mt-2 text-3xl font-black">Let the tower lead you to the coastal facade</h3>
+                <p class="mt-3 text-white/70">The best angles combine the palace with the water rather than separating the building from its context.</p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="visit" class="py-28">
+        <div class="container-shell">
+          <div class="max-w-3xl">
+            <p class="section-kicker">Plan your visit · Location &amp; How to Visit</p>
+            <h2 class="section-title mt-4">Montaza Palace visit guide — everything you need before the gate</h2>
+          </div>
+
+          <div class="mt-14 grid gap-7 lg:grid-cols-3">
+            <article class="arch-card rounded-[2.5rem] p-8">
+              <p class="text-sm font-black text-[#8f3d32]">01 · Tickets / fees</p>
+              <h3 class="mt-3 text-2xl font-black">Treat the price as a guideline, not a fixed promise</h3>
+              <p class="mt-4 text-[#62706e]">Recent local reports pointed to a garden entry fee of about 50 Egyptian pounds per person. There may be separate fees for services or other areas, so check the official price board at the entrance.</p>
+            </article>
+            <article class="arch-card rounded-[2.5rem] p-8">
+              <p class="text-sm font-black text-[#8f3d32]">02 · Parking</p>
+              <h3 class="mt-3 text-2xl font-black">Plan to park near the entrance</h3>
+              <p class="mt-4 text-[#62706e]">Car access and internal mobility arrangements change. Do not rely on driving inside the gardens; use the approved parking areas near the gates and ask about available internal transport.</p>
+            </article>
+            <article class="arch-card rounded-[2.5rem] p-8">
+              <p class="text-sm font-black text-[#8f3d32]">03 · Best time</p>
+              <h3 class="mt-3 text-2xl font-black">October–April is gentler for walking</h3>
+              <p class="mt-4 text-[#62706e]">In the cooler months you can enjoy the open spaces longer. In summer choose early morning or late afternoon, and carry water and sun protection.</p>
+            </article>
+          </div>
+
+          <div class="mt-8 rounded-[2.75rem] bg-[#efe4cc] p-7 md:p-10">
+            <div class="grid gap-8 lg:grid-cols-[.55fr_1.45fr]">
+              <div>
+                <p class="text-sm font-black text-[#8f3d32]">Suggested route · 3 hours</p>
+                <h3 class="mt-3 text-3xl font-black">A visit without rushing</h3>
+              </div>
+              <div class="space-y-7">
+                <div class="timeline-step">
+                  <p class="font-black">Start at the royal facade</p>
+                  <p class="mt-1 text-sm text-[#61706d]">Use morning or pre-sunset light to photograph the tower and arches from a distance.</p>
+                </div>
+                <div class="timeline-step">
+                  <p class="font-black">Continue along the green promenades</p>
+                  <p class="mt-1 text-sm text-[#61706d]">Pick one or two axes instead of trying to cover all the gardens.</p>
+                </div>
+                <div class="timeline-step">
+                  <p class="font-black">End at the sea and Tea Island</p>
+                  <p class="mt-1 text-sm text-[#61706d]">Make the end of the visit about the water, the breeze and a break before returning to the gate.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="transport" class="bg-[#8f3d32] py-28 text-white">
+        <div class="container-shell grid gap-12 lg:grid-cols-[.75fr_1.25fr]">
+          <div>
+            <p class="section-kicker !text-[#f2d698]">Getting there in detail · Getting There</p>
+            <h2 class="section-title mt-4">Getting to Montaza Palace: eastern Alexandria, on El-Gaish Rd</h2>
+            <p class="mt-6 max-w-xl text-lg text-white/74">Montaza's position at the eastern corniche makes it easy by car, and the local Montaza train station is a practical option for moving within Alexandria.</p>
+            <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="mt-8 inline-flex rounded-full bg-white px-6 py-3 font-black text-[#8f3d32]">Directions on Google Maps ↗</a>
+          </div>
+
+          <div class="grid gap-4">
+            <article class="rounded-[2rem] border border-white/18 bg-white/8 p-7 backdrop-blur-sm">
+              <div class="flex gap-5">
+                <span class="text-2xl">🚕</span>
+                <div><h3 class="text-xl font-black">Taxi / ride apps</h3><p class="mt-2 text-white/72">From central Alexandria take the corniche east toward Al Mandarah and Montaza. Travel time shifts a lot with congestion, especially in summer and on weekends.</p></div>
+              </div>
+            </article>
+            <article class="rounded-[2rem] border border-white/18 bg-white/8 p-7 backdrop-blur-sm">
+              <div class="flex gap-5">
+                <span class="text-2xl">🚆</span>
+                <div><h3 class="text-xl font-black">Local Abu Qir train</h3><p class="mt-2 text-white/72">Alight at Montaza station, then a short walk or local ride to the garden gates. Check the line operation on your trip day, as upgrades may affect service.</p></div>
+              </div>
+            </article>
+            <article class="rounded-[2rem] border border-white/18 bg-white/8 p-7 backdrop-blur-sm">
+              <div class="flex gap-5">
+                <span class="text-2xl">🚌</span>
+                <div><h3 class="text-xl font-black">Microbus / buses on the corniche</h3><p class="mt-2 text-white/72">Look for lines heading to Al Mandarah, Maamoura or Abu Qir and ask to get off at Montaza. Ask the driver for the closest gate to your target inside the gardens.</p></div>
+              </div>
+            </article>
+            <article class="rounded-[2rem] border border-white/18 bg-white/8 p-7 backdrop-blur-sm">
+              <div class="flex gap-5">
+                <span class="text-2xl">✈</span>
+                <div><h3 class="text-xl font-black">From Borg El Arab Airport</h3><p class="mt-2 text-white/72">Car or pre-booked transfer is the simplest option. The distance across the city is long, so leave an extra margin for traffic rather than relying on a fixed time.</p></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="nearby" class="py-28">
+        <div class="container-shell">
+          <div class="grid gap-10 lg:grid-cols-2">
+            <div>
+              <p class="section-kicker">Around Montaza · Nearby food</p>
+              <h2 class="mt-4 text-4xl font-black md:text-5xl">What to eat near Montaza Palace after walking?</h2>
+              <div class="mt-8 space-y-4">
+                <article class="rounded-[2rem] border border-[#0b5960]/14 bg-white/60 p-6">
+                  <div class="flex items-start justify-between gap-4"><div><h3 class="text-xl font-black">Seafood in Sidi Bishr</h3><p class="mt-2 text-sm text-[#63706f]">A natural choice after a coastal visit; seafood restaurants spread along Sidi Bishr and eastern Alexandria — pick what fits the day's reviews.</p></div><span class="text-2xl">🐟</span></div>
+                </article>
+                <article class="rounded-[2rem] border border-[#0b5960]/14 bg-white/60 p-6">
+                  <div class="flex items-start justify-between gap-4"><div><h3 class="text-xl font-black">Coffee &amp; a break near Montaza</h3><p class="mt-2 text-sm text-[#63706f]">Cafés around Al Mandarah and Montaza suit a light break before or after entry; check reviews and hours at the time.</p></div><span class="text-2xl">☕</span></div>
+                </article>
+                <article class="rounded-[2rem] border border-[#0b5960]/14 bg-white/60 p-6">
+                  <div class="flex items-start justify-between gap-4"><div><h3 class="text-xl font-black">Sweets &amp; ice cream on the corniche</h3><p class="mt-2 text-sm text-[#63706f]">A quick option on warm days, especially if you continue your tour westward along the corniche.</p></div><span class="text-2xl">🍨</span></div>
+                </article>
+              </div>
+            </div>
+
+            <div>
+              <p class="section-kicker">Around Montaza · Landmarks &amp; Attractions Around</p>
+              <h2 class="mt-4 text-4xl font-black md:text-5xl">Landmarks near Montaza Palace: complete your day with three stops</h2>
+              <div class="mt-8 space-y-4">
+                <article class="rounded-[2rem] bg-[#0b5960] p-6 text-white">
+                  <p class="text-xs font-black text-[#e7cb8a]">Inside / next to the complex</p><h3 class="mt-2 text-xl font-black">Tea Island</h3><p class="mt-2 text-sm text-white/70">A beloved spot for water, sunset and photos; make it a calm end to the garden route.</p>
+                </article>
+                <article class="rounded-[2rem] bg-[#0b5960] p-6 text-white">
+                  <p class="text-xs font-black text-[#e7cb8a]">East nearby</p><h3 class="mt-2 text-xl font-black">Maamoura Beach</h3><p class="mt-2 text-sm text-white/70">Suitable if you want to turn the tour into a longer half-day on the coast after the gardens.</p>
+                </article>
+                <article class="rounded-[2rem] bg-[#0b5960] p-6 text-white">
+                  <p class="text-xs font-black text-[#e7cb8a]">Toward downtown</p><h3 class="mt-2 text-xl font-black">Royal Jewelry Museum</h3><p class="mt-2 text-sm text-white/70">An excellent extension of the royal theme inside a former palace in the Zizinia area; check separate entry hours.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="map" class="pb-28">
+        <div class="container-shell">
+          <div class="overflow-hidden rounded-[3rem] bg-[#073f45] shadow-2xl shadow-[#073f45]/15">
+            <div class="grid lg:grid-cols-[.42fr_.58fr]">
+              <div class="p-8 text-white md:p-12">
+                <p class="section-kicker !text-[#e7cb8a]">The map · Map &amp; Location</p>
+                <h2 class="mt-4 text-4xl font-black">Montaza Palace location — your compass to Montaza</h2>
+                <address class="mt-5 not-italic text-white/70">
+                  <span class="font-black text-white/85">Montaza Palace (قصر المنتزه)</span><br />
+                  El-Gaish Rd, Al Mandarah Bahri, Montaza 2, Alexandria Governorate 5527001, Egypt<br />
+                  <span class="text-white/55" dir="rtl">طريق الجيش، المندرة بحري، المنتزه 2، محافظة الإسكندرية 5527001، مصر</span>
+                </address>
+                <div class="mt-7 rounded-3xl border border-white/15 p-5">
+                  <p class="text-sm text-white/55">Plus Code</p>
+                  <p class="mt-1 text-xl font-black">{entity.plusCode} · {entity.cityEn}</p>
+                </div>
+                <a href={mapUrl} target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-black text-[#f2d698]">Open the full map ↗</a>
+                <p class="mt-4 max-w-sm text-xs leading-6 text-white/55">Recorded coordinates: {entity.latitude}, {entity.longitude} — matching the Google Maps place listing.</p>
+              </div>
+              <div class="map-frame min-h-[520px] bg-[#e8dfca]">
+                <iframe src={mapEmbed} width="100%" height="520" title="Map of Montaza Palace (قصر المنتزه) location in Alexandria" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="bg-[#efe4cc] py-28">
+        <div class="container-shell grid gap-12 lg:grid-cols-[.55fr_1.45fr]">
+          <div>
+            <p class="section-kicker">Common questions · FAQ</p>
+            <h2 class="section-title mt-4">Common questions about Montaza Palace before you go</h2>
+            <p class="mt-5 text-[#63706f]">Hours, prices and building availability may change; the answers are written to help you plan without turning variable information into fixed promises.</p>
+          </div>
+          <div class="space-y-3">
+            {faqItems.map((item) => (
+              <details class="group rounded-[1.75rem] border border-[#0b5960]/12 bg-[#fffaf0] p-6">
+                <summary class="flex items-center justify-between gap-5 font-black">
+                  <span>{item.question}</span>
+                  <span class="faq-plus grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#0b5960] text-xl text-white">+</span>
+                </summary>
+                <p class="mt-4 border-t border-[#0b5960]/10 pt-4 text-[#63706f]">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="sources" class="bg-[#073f45] py-24 text-white">
+        <div class="container-shell">
+          <div class="max-w-3xl">
+            <p class="section-kicker !text-[#e7cb8a]">Verification &amp; sources · Sources</p>
+            <h2 class="section-title mt-4">Verification &amp; sources</h2>
+            <p class="mt-5 text-white/70">
+              For official updates and regional tourism information, visit the official Egypt tourism portal, along with free-knowledge references and the Google Maps place listing.
+            </p>
+            <p class="mt-3 text-sm text-white/55" lang="ar" dir="rtl">
+              للاطلاع على التحديثات الرسمية ومعلومات السياحة الإقليمية، زُر البوابة الرسمية للسياحة في مصر، مع مصادر المعرفة الحرة وقائمة المكان على خرائط Google.
+            </p>
+          </div>
+          <ul class="mt-10 grid gap-4 md:grid-cols-2">
+            {sources.map((source) => (
+              <li class="rounded-[2rem] border border-white/15 bg-white/5 p-6">
+                <a href={source.url} target="_blank" rel="noopener noreferrer" class="font-black text-[#f2d698] underline-offset-4 hover:underline">{source.label} ↗</a>
+                <p class="mt-2 text-sm text-white/60">{source.labelEn}</p>
+                <p class="mt-1 text-xs text-white/45">{source.note}</p>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-10 text-xs leading-6 text-white/45">
+            This site is an independent, unofficial guide and is not affiliated with the Montaza Gardens administration, the Presidency, or the Ministry of Tourism and Antiquities. Practical data should be verified at the gate on the day of your visit.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-[#052f33] py-12 text-white">
+      <div class="container-shell grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+        <div>
+          <img src="/brand/logo.svg" alt="Montaza Palace" class="h-12 w-auto" width="206" height="52" loading="lazy" />
+          <p class="mt-5 max-w-2xl text-sm leading-7 text-white/62">This is an independent, unofficial visitor guide and is not affiliated with the Montaza Gardens administration, the Presidency, or any government body.</p>
+          <address class="mt-5 not-italic text-sm leading-7 text-white/62">
+            <span class="font-black text-white/80">Montaza Palace (قصر المنتزه)</span><br />
+            El-Gaish Rd, Al Mandarah Bahri, Montaza 2, Alexandria Governorate 5527001, Egypt
+          </address>
+          <details class="mt-4 max-w-3xl text-xs text-white/45">
+            <summary class="cursor-pointer font-bold text-white/60">Image &amp; information credits</summary>
+            <div class="mt-3 space-y-2 leading-6">
+              <p>Photographs are from Wikimedia Commons under CC BY-SA licenses to their owners: Ayman G. Abdeltawab, Asmaa azmy, Walaa/la rosa, and Ala'a Najjar. Direct file links are used here to keep real photos of the place.</p>
+              <p>Historical information is based on Egyptian tourism materials, and practical information is phrased as changeable guidance to be verified on visit.</p>
+            </div>
+          </details>
+        </div>
+        <div class="md:text-right">
+          <div class="flex flex-wrap gap-x-4 gap-y-2 text-xs font-bold text-white/55 md:justify-end">
+            <a href="/en/privacy/" class="hover:text-white">Privacy</a>
+            <a href="/en/terms/" class="hover:text-white">Terms of use</a>
+            <a href="/en/cookies/" class="hover:text-white">Cookie settings</a>
+            <a href="#sources" class="hover:text-white">Sources</a>
+          </div>
+          <p class="mt-4 text-xs font-bold text-white/40">Montaza Palace Guide · Alexandria</p>
+          <a href="#top" class="mt-3 inline-block text-sm font-black text-[#e7cb8a]">Back to top ↑</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -14,6 +14,7 @@
 - خريطة Google تستخدم العربية/مصر (`ar` / `eg`).
 - Logo/Favicon محليان وبنفس الرمز والألوان؛ SVG + 16×16 + 32×32 + 180×180 موجودة.
 - JSON-LD يتضمن `TouristAttraction` + `LocalBusiness` + `LandmarksOrHistoricalBuildings` مع `@id`/`image`/`sameAs`/`hasMap`، و`WebSite` + `Organization` + `BreadcrumbList` + `FAQPage`.
+- الموقع ثنائي اللغة: الصفحة العربية `/` والإنجليزية `/en/` تشتركان في `@id` الكيان نفسه (`#attraction`)، وكلاهما يُخرج hreflang متبادل (`ar` + `en` + `x-default`) مع زرّ تبديل لغة في الترويسة. الصفحات القانونية (`/privacy/`、`/terms/`、`/cookies/` ونسخها الإنجليزية `/en/...`) تُخرج أيضًا hreflang متبادل مع زرّ تبديل لغة. تقييم المكان محدّث إلى 4.5 / 19,070.
 - الصفحة تشمل الرسوم، المواقف، أفضل وقت، مدة الزيارة، النقل، الطعام القريب، المعالم القريبة وFAQ.
 - كيان واحد (`entity`) هو مصدر الحقيقة للاسم والعنوان والإحداثيات، ويظهر في وسوم الرأس والنص المرئي وقسم `#about` لضمان تطابق NAP مع قائمة خرائط Google.
 - PWA: `public/site.webmanifest` + `public/sw.js` + وسم manifest ورابط تسجيل الـ service worker في الصفحة.

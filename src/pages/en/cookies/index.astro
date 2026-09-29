@@ -1,0 +1,15 @@
+---
+import '../../../styles/global.css';
+const site = Astro.site ? Astro.site.href.replace(/\/$/, '') : 'https://montazapalace.com';
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const arUrl = `${site}/cookies/`;
+const enUrl = `${site}/en/cookies/`;
+---
+<!doctype html><html lang="en" dir="ltr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#073f45"/><title>Cookie Settings | Montaza Palace Guide</title><meta name="description" content="Choose whether the independent Montaza Palace (قصر المنتزه) guide may load optional Google Analytics. Essential cookies are not used for tracking."/>{canonicalUrl && <link rel="canonical" href={canonicalUrl}/>}<link rel="alternate" hreflang="ar" href={arUrl}/><link rel="alternate" hreflang="en" href={enUrl}/><link rel="alternate" hreflang="x-default" href={arUrl}/><link rel="manifest" href="/site.webmanifest"/><link rel="icon" href="/brand/favicon.svg" type="image/svg+xml"/></head><body class="policy-body"><main class="policy-shell"><a class="policy-back" href="/en/">← Back to guide</a> <span aria-hidden="true">·</span> <a class="policy-back" href="/cookies/" lang="ar" hreflang="ar">العربية</a><img src="/brand/logo.svg" alt="Montaza Palace" class="mt-8 h-14 w-auto"/><h1>Cookie Settings</h1><p>Essential operational cookies are not used for tracking. Analytics are optional and you can allow or reject them below.</p><div class="mt-8 grid gap-4 sm:grid-cols-2"><button id="allow" class="rounded-2xl bg-[#073f45] px-6 py-4 font-black text-white">Allow analytics</button><button id="deny" class="rounded-2xl border border-[#073f45]/25 bg-white px-6 py-4 font-black text-[#073f45]">Reject analytics</button></div><p id="status" class="mt-5 rounded-2xl bg-[#efe4cc] p-4 text-sm"></p><h2>What changes?</h2><p>When you allow, the site can load Google Analytics 4. When you reject, the analytics script is not loaded from the home page.</p></main><script is:inline>
+const key='montaza-analytics-consent';
+const status=document.getElementById('status');
+function render(){const v=localStorage.getItem(key); status.textContent=v==='granted'?'Your current choice: analytics allowed.':v==='denied'?'Your current choice: analytics rejected.':'No preference chosen yet.';}
+document.getElementById('allow').addEventListener('click',()=>{localStorage.setItem(key,'granted');render();});
+document.getElementById('deny').addEventListener('click',()=>{localStorage.setItem(key,'denied');render();});
+render();
+</script></body></html>

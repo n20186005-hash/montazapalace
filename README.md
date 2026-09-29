@@ -55,13 +55,14 @@ pnpm photos:fetch
 
 ## الخصوصية وGA4
 
-GA4 مضبوط على `G-HXM22WWPKP`، ولا يتم تحميله إلا إذا سمح الزائر بالتحليلات من `/cookies/`. الصفحات القانونية موجودة في `/privacy/` و`/terms/` و`/cookies/`.
+GA4 مضبوط على `G-HXM22WWPKP`، ولا يتم تحميله إلا إذا سمح الزائر بالتحليلات من `/cookies/`. الصفحات القانونية موجودة بالعربية في `/privacy/` و`/terms/` و`/cookies/`، وبالإنجليزية في `/en/privacy/`、`/en/terms/`、`/en/cookies/`، وكل صفحة تُخرج hreflang متبادل (`ar` + `en` + `x-default`) مع زرّ تبديل لغة.
 
 ## تحسين الظهور (SEO Entity) وPWA
 
 - كيان واحد مُعلَن مرة واحدة (`entity` داخل `src/pages/index.astro`) ويُستهلك في وسوم الرأس والنص المرئي والبيانات المنظمة لضمان تطابق NAP (الاسم/العنوان) مع قائمة المكان على خرائط Google.
 - `TouristAttraction` + `LocalBusiness` + `LandmarksOrHistoricalBuildings` مع `@id` و`image` و`sameAs` و`hasMap`، بالإضافة إلى `WebSite` و`Organization` و`BreadcrumbList` و`FAQPage`.
-- TDK موسّع: canonical، hreflang (`ar-eg` + `x-default`)، Open Graph، Twitter، ووسوم geo/ICBM.
+- موقع ثنائي اللغة: الصفحة العربية في `/` والصفحة الإنجليزية في `/en/`، مع hreflang متبادل (`ar` + `en` + `x-default`) ومنطقة لغة في الترويسة (زرّ `EN`/`العربية`).
+- TDK موسّع: canonical، hreflang (`ar` + `en` + `x-default`)، Open Graph، Twitter، ووسوم geo/ICBM.
 - قسم `#sources` يعرض مصادر موثوقة: هيئة تنشيط السياحة في مصر، وزارة السياحة والآثار، ويكيبيديا، Wikidata `Q1350295`، Wikimedia Commons.
 - PWA: `public/site.webmanifest` + `public/sw.js` مسجَّل من الصفحة لدعم التثبيت والعرض دون اتصال.
 

@@ -1,0 +1,14 @@
+# Enforce HTTPS and harden responses for the static site.
+# (HTTP→HTTPS and www→apex 301 still must be set at the Cloudflare
+#  dashboard: "Always Use HTTPS" + a Redirect Rule, since Workers static
+#  assets do not support domain-level redirects in _redirects.)
+
+/
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(self)
+
+/sw.js
+  Cache-Control: no-cache
