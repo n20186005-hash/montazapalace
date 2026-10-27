@@ -1,0 +1,5 @@
+---
+const { value } = Astro.props as { value: string };
+const parts = value.split(/([0-9]+(?:[.,:/–-][0-9]+)*)/g);
+---
+{parts.map((part, i) => i % 2 ? <bdi dir="ltr">{part}</bdi> : part)}

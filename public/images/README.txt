@@ -1,9 +1,9 @@
 Montaza Palace real-photo target directory.
 
-Expected filenames after running `pnpm photos:fetch` or using REAL-PHOTOS-DOWNLOADER.html:
+The original source filenames retained by the guide are:
 - montaza-palace-hero.jpg
 - montaza-palace-main.jpg
 - montaza-palace-garden.jpg
 - montaza-palace-coast.jpg
 
-The four verified original photos are present in this directory and are served from the site's own origin: the page uses them directly, and they also back og:image and the JSON-LD image array. See PHOTO-SOURCES.md for authors and licenses. Re-run `pnpm photos:fetch` (or use REAL-PHOTOS-DOWNLOADER.html) only if you need to refresh them.
+Photographer, source-file link, capture date and individual licence are displayed beside each use in the guide. The filename ending in -coast is a historic palace-facade photograph, not a beach-access illustration. Historical pictures do not establish current opening, access or service conditions. The original source inventory is also recorded in PHOTO-SOURCES.md.

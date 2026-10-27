@@ -1,8 +1,4 @@
 ---
-import '../../styles/global.css';
-const site = Astro.site ? Astro.site.href.replace(/\/$/, '') : 'https://montazapalace.com';
-const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
-const arUrl = `${site}/terms/`;
-const enUrl = `${site}/en/terms/`;
+import Legal from '../../components/Legal.astro';
 ---
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#073f45"/><title>شروط الاستخدام | دليل قصر المنتزه</title>{canonicalUrl && <link rel="canonical" href={canonicalUrl}/>}<link rel="alternate" hreflang="ar" href={arUrl}/><link rel="alternate" hreflang="en" href={enUrl}/><link rel="alternate" hreflang="x-default" href={arUrl}/><link rel="manifest" href="/site.webmanifest"/><link rel="icon" href="/brand/favicon.svg" type="image/svg+xml"/></head><body class="policy-body"><main class="policy-shell"><a class="policy-back" href="/">← العودة إلى الدليل</a> <span aria-hidden="true">·</span> <a class="policy-back" href="/en/terms/" lang="en" hreflang="en">English</a><img src="/brand/logo.svg" alt="قصر المنتزه" class="mt-8 h-14 w-auto"/><h1>شروط الاستخدام</h1><p>المحتوى هنا مخصص للتخطيط السياحي العام ولا يمثل إعلانًا رسميًا عن التشغيل أو التذاكر أو فتح مباني القصر.</p><h2>المعلومات المتغيرة</h2><p>الرسوم وساعات الدخول والمواقف وإتاحة المباني والخدمات قد تتغير. تحقّق من التعليمات المعلنة عند البوابة أو من الجهة المختصة قبل اتخاذ قرار يعتمد على هذه التفاصيل.</p><h2>الخرائط والروابط</h2><p>روابط وخريطة Google مقدمة للتسهيل، وتخضع خدمات الطرف الثالث لشروط مزوديها.</p><h2>الصور</h2><p>الصور الفوتوغرافية موثقة في ملف <code>PHOTO-SOURCES.md</code> ضمن المشروع، ويجب الحفاظ على نسب العمل والترخيص عند إعادة الاستخدام.</p><h2>الصفة غير الرسمية</h2><p>الموقع دليل مستقل وغير تابع لرئاسة الجمهورية أو وزارة السياحة والآثار أو إدارة حدائق المنتزه.</p></main></body></html>
+<Legal lang="ar" topic="terms"/>

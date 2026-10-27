@@ -8,7 +8,8 @@ const site = 'https://montazapalace.com';
 export default defineConfig({
   site: site || undefined,
   output: 'static',
-  integrations: site ? [sitemap()] : [],
+  trailingSlash: 'always',
+  integrations: site ? [sitemap({ filter: (page) => !/^\/(?:en\/)?404(?:\/|\.html)?$/.test(new URL(page).pathname) })] : [],
   vite: {
     plugins: [tailwindcss()]
   }

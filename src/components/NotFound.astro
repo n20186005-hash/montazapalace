@@ -1,0 +1,8 @@
+---
+import Layout from './Layout.astro';
+import { type Language } from '../data/site';
+const { lang } = Astro.props as {lang: Language}; const en = lang === 'en';
+---
+<Layout lang={lang} title={en ? 'Page not found | Montaza guide' : 'الصفحة غير موجودة | دليل المنتزه'} description={en ? 'This address is not a page in the Montaza guide.' : 'هذا العنوان ليس صفحة في دليل المنتزه.'} path={en ? '/en/404/' : '/404/'} alternate={en ? '/404/' : '/en/404/'} noindex>
+ <main id="main" class="policy-shell"><p>404</p><h1>{en ? 'Page not found' : 'الصفحة غير موجودة'}</h1><p>{en ? 'Check the address or return to the visitor guide.' : 'تحقق من العنوان أو عد إلى دليل الزيارة.'}</p><a href={en ? '/en/' : '/'}>{en ? 'Return to the guide' : 'العودة إلى الدليل'}</a></main>
+</Layout>

@@ -1,0 +1,27 @@
+---
+import '../styles/global.css';
+import { SITE, text, type Language } from '../data/site';
+interface Props { lang: Language; title: string; description: string; path: string; alternate: string; noindex?: boolean; image?: string; imageAlt?: string; }
+const { lang, title, description, path, alternate, noindex = false, image, imageAlt } = Astro.props;
+const t = text[lang]; const home = lang === 'en' ? '/en/' : '/';
+const links = [home+'#about', home+'#visit', home+'#transport', home+'#faq'];
+---
+<!doctype html>
+<html lang={lang} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+ <head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{title}</title><meta name="description" content={description}/><meta name="theme-color" content="#073f45"/>
+  {noindex ? <meta name="robots" content="noindex, follow"/> : <><link rel="canonical" href={SITE+path}/><link rel="alternate" hreflang={lang} href={SITE+path}/><link rel="alternate" hreflang={lang === 'ar' ? 'en' : 'ar'} href={SITE+alternate}/><link rel="alternate" hreflang="x-default" href={SITE+(lang === 'ar' ? path : alternate)}/></>}
+  <meta property="og:type" content="website"/><meta property="og:locale" content={lang === 'ar' ? 'ar_EG' : 'en_GB'}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={SITE+path}/>
+  {image && <><meta property="og:image" content={SITE+image}/><meta property="og:image:alt" content={imageAlt}/><meta property="og:image:width" content="4388"/><meta property="og:image:height" content="3185"/></>}
+  <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'}/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/>{image && <><meta name="twitter:image" content={SITE+image}/><meta name="twitter:image:alt" content={imageAlt}/></>}
+  <link rel="icon" href="/brand/favicon.svg" type="image/svg+xml"/><link rel="icon" href="/brand/favicon-32x32.png" sizes="32x32"/><link rel="apple-touch-icon" href="/brand/apple-touch-icon.png"/><link rel="manifest" href="/site.webmanifest"/>
+  <script is:inline src="/analytics.js" defer></script>
+ </head>
+ <body>
+  <a class="skip-link" href="#main">{lang === 'ar' ? 'انتقل إلى المحتوى' : 'Skip to content'}</a>
+  <header class="site-nav"><div class="container-shell nav-inner"><a href={home} class="brand" aria-label={lang === 'ar' ? 'دليل المنتزه — الرئيسية' : 'Montaza guide — home'}><img src="/brand/logo.svg" width="206" height="52" alt={t.name}/></a><nav aria-label={lang === 'ar' ? 'التنقل الرئيسي' : 'Main navigation'} class="desktop-links">{t.nav.map((label,i)=><a href={links[i]}>{label}</a>)}</nav><a class="lang-link" href={alternate} lang={lang === 'ar' ? 'en' : 'ar'} hreflang={lang === 'ar' ? 'en' : 'ar'}>{lang === 'ar' ? 'English' : 'العربية'}</a><details class="mobile-nav"><summary>{lang === 'ar' ? 'القائمة' : 'Menu'}</summary><nav>{t.nav.map((label,i)=><a href={links[i]}>{label}</a>)}</nav></details></div></header>
+  <slot/>
+  <footer class="site-footer"><div class="container-shell"><a href={home}>{t.name}</a><p>{t.positioning}</p><nav aria-label={lang === 'ar' ? 'السياسات' : 'Policies'}><a href={home+'privacy/'}>{t.privacy}</a><a href={home+'terms/'}>{t.terms}</a><a href={home+'cookies/'}>{t.cookies}</a></nav><p><time datetime="2026-10-26">{t.updated}</time></p></div></footer>
+ </body>
+</html>

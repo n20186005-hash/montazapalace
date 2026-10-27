@@ -1,33 +1,14 @@
-# مصادر الصور الحقيقية لقصر المنتزه
+# Photograph sources
 
-الصور التالية صور فوتوغرافية حقيقية من Wikimedia Commons وليست مولدة. أسماء الملفات المحلية المقترحة هي الأسماء التي يستخدمها سكربت `pnpm photos:fetch` ومولّد ZIP المرفق.
+Four original Commons photographs are retained without changing their file bytes. Display layouts may visually crop the hero; the three content photographs retain their intrinsic aspect ratios. Each use includes a visible linked photographer/source, licence, capture date and modification notice.
 
-1. `public/images/montaza-palace-hero.jpg`
-   - الأصل: **Montazah Palace and Gardens.jpg**
-   - المصور: Ayman G. Abdeltawab
-   - الترخيص: CC BY-SA 4.0
-   - صفحة المصدر: https://commons.wikimedia.org/wiki/File:Montazah_Palace_and_Gardens.jpg
-   - الأصل المباشر: https://upload.wikimedia.org/wikipedia/commons/9/93/Montazah_Palace_and_Gardens.jpg
+| File | Source file | Photographer | Capture date | Licence |
+| --- | --- | --- | --- | --- |
+| montaza-palace-hero.jpg | [Montazah Palace and Gardens.jpg](https://commons.wikimedia.org/wiki/File:Montazah_Palace_and_Gardens.jpg) | Ayman G. Abdeltawab | 2016-09-06 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| montaza-palace-main.jpg | [Montaza Palace - ALEXANDRIA.jpg](https://commons.wikimedia.org/wiki/File:Montaza_Palace_-_ALEXANDRIA.jpg) | Asmaa azmy | 2019-08-15 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| montaza-palace-garden.jpg | [Montaza Palace garden 001.JPG](https://commons.wikimedia.org/wiki/File:Montaza_Palace_garden_001.JPG) | لا روسا | 2014-09-26 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| montaza-palace-coast.jpg | [Montaza Palace, Alexandria.jpg](https://commons.wikimedia.org/wiki/File:Montaza_Palace,_Alexandria.jpg) | علاء | 2017-01-31 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
 
-2. `public/images/montaza-palace-main.jpg`
-   - الأصل: **Montaza Palace - ALEXANDRIA.jpg**
-   - المصورة: Asmaa azmy
-   - الترخيص: CC BY-SA 4.0
-   - صفحة المصدر: https://commons.wikimedia.org/wiki/File:Montaza_Palace_-_ALEXANDRIA.jpg
-   - الأصل المباشر: https://upload.wikimedia.org/wikipedia/commons/f/f1/Montaza_Palace_-_ALEXANDRIA.jpg
+The first and fourth show the historic Al-Haramlik facade; the second shows a palace facade behind palms and a fountain. The garden image focuses on succulent plants. The legacy filename “coast” does not establish a beach view or swimming access. Sources record earlier years, not present-day visitor conditions.
 
-3. `public/images/montaza-palace-garden.jpg`
-   - الأصل: **Montaza Palace garden 001.JPG**
-   - المصورة/الرافع: لا روسا
-   - الترخيص: CC BY-SA 3.0
-   - صفحة المصدر: https://commons.wikimedia.org/wiki/File:Montaza_Palace_garden_001.JPG
-   - الأصل المباشر: https://upload.wikimedia.org/wikipedia/commons/b/b2/Montaza_Palace_garden_001.JPG
-
-4. `public/images/montaza-palace-coast.jpg`
-   - الأصل: **Montaza Palace, Alexandria.jpg**
-   - المصور: علاء
-   - الترخيص: CC BY-SA 3.0
-   - صفحة المصدر: https://commons.wikimedia.org/wiki/File:Montaza_Palace,_Alexandria.jpg
-   - الأصل المباشر: https://upload.wikimedia.org/wikipedia/commons/8/80/Montaza_Palace%2C_Alexandria.jpg
-
-عند إعادة الاستخدام، حافظ على نسب المصور والترخيص وبيان أي تعديلات/قص للصورة وفق شروط كل ترخيص. لا تعني الاستضافة أو المعالجة أن أصحاب الصور أو Wikimedia Commons يؤيدون هذا الموقع.
+The licences apply to the photographers’ contributions and do not imply their endorsement or automatically clear every other right in a depicted object. Retain attribution, applicable share-alike conditions and change descriptions in reuse. Historical background and the depicted palace architecture are described in Bibliotheca Alexandrina’s [Montazah publication](https://www.bibalex.org/Attachments/Publications/Files/201603081031151154_MontazhBook.pdf).

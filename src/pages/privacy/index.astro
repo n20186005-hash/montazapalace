@@ -1,8 +1,4 @@
 ---
-import '../../styles/global.css';
-const site = Astro.site ? Astro.site.href.replace(/\/$/, '') : 'https://montazapalace.com';
-const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
-const arUrl = `${site}/privacy/`;
-const enUrl = `${site}/en/privacy/`;
+import Legal from '../../components/Legal.astro';
 ---
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#073f45"/><title>سياسة الخصوصية | دليل قصر المنتزه</title>{canonicalUrl && <link rel="canonical" href={canonicalUrl}/>}<link rel="alternate" hreflang="ar" href={arUrl}/><link rel="alternate" hreflang="en" href={enUrl}/><link rel="alternate" hreflang="x-default" href={arUrl}/><link rel="manifest" href="/site.webmanifest"/><link rel="icon" href="/brand/favicon.svg" type="image/svg+xml"/></head><body class="policy-body"><main class="policy-shell"><a class="policy-back" href="/">← العودة إلى الدليل</a> <span aria-hidden="true">·</span> <a class="policy-back" href="/en/privacy/" lang="en" hreflang="en">English</a><img src="/brand/logo.svg" alt="قصر المنتزه" class="mt-8 h-14 w-auto"/><h1>سياسة الخصوصية</h1><p>هذا موقع إرشادي مستقل عن قصر وحدائق المنتزه. لا يطلب إنشاء حساب ولا يخزن قاعدة بيانات للزوار.</p><h2>التحليلات</h2><p>يستخدم الموقع Google Analytics 4 بالمعرّف <code>G-HXM22WWPKP</code> فقط إذا اخترت السماح بملفات تعريف الارتباط التحليلية من صفحة إعدادات الكوكيز. يمكنك تغيير قرارك في أي وقت.</p><h2>الخدمات الخارجية</h2><p>تضم الصفحة خريطة Google مضمّنة وصورًا فوتوغرافية موثقة المصدر. عند تحميل محتوى من طرف ثالث قد يتلقى مزود الخدمة بيانات تقنية معتادة مثل عنوان IP ومعلومات المتصفح وفق سياساته.</p><h2>التخزين المحلي</h2><p>يُستخدم التخزين المحلي في المتصفح لحفظ خيارك بشأن التحليلات. لا يستخدم الموقع هذا الخيار لإنشاء ملف شخصي أو تسجيل دخول.</p><h2>تنبيه</h2><p>هذا الموقع غير رسمي ولا يتبع إدارة حدائق المنتزه أو أي جهة حكومية.</p></main></body></html>
+<Legal lang="ar" topic="privacy"/>
