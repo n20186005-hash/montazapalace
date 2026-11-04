@@ -4,7 +4,7 @@ import { SITE, text, type Language } from '../data/site';
 interface Props { lang: Language; title: string; description: string; path: string; alternate: string; noindex?: boolean; image?: string; imageAlt?: string; }
 const { lang, title, description, path, alternate, noindex = false, image, imageAlt } = Astro.props;
 const t = text[lang]; const home = lang === 'en' ? '/en/' : '/';
-const links = [home+'#about', home+'#visit', home+'#transport', home+'#faq'];
+const links = [home+'#about', home+'#visit', home+'#transport', home+'#faq']; const guidesLink = home+'guides/';
 ---
 <!doctype html>
 <html lang={lang} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
@@ -20,8 +20,8 @@ const links = [home+'#about', home+'#visit', home+'#transport', home+'#faq'];
  </head>
  <body>
   <a class="skip-link" href="#main">{lang === 'ar' ? 'انتقل إلى المحتوى' : 'Skip to content'}</a>
-  <header class="site-nav"><div class="container-shell nav-inner"><a href={home} class="brand" aria-label={lang === 'ar' ? 'دليل المنتزه — الرئيسية' : 'Montaza guide — home'}><img src="/brand/logo.svg" width="206" height="52" alt={t.name}/></a><nav aria-label={lang === 'ar' ? 'التنقل الرئيسي' : 'Main navigation'} class="desktop-links">{t.nav.map((label,i)=><a href={links[i]}>{label}</a>)}</nav><a class="lang-link" href={alternate} lang={lang === 'ar' ? 'en' : 'ar'} hreflang={lang === 'ar' ? 'en' : 'ar'}>{lang === 'ar' ? 'English' : 'العربية'}</a><details class="mobile-nav"><summary>{lang === 'ar' ? 'القائمة' : 'Menu'}</summary><nav>{t.nav.map((label,i)=><a href={links[i]}>{label}</a>)}</nav></details></div></header>
+  <header class="site-nav"><div class="container-shell nav-inner"><a href={home} class="brand" aria-label={lang === 'ar' ? 'دليل المنتزه — الرئيسية' : 'Montaza guide — home'}><img src="/brand/logo.svg" width="206" height="52" alt={t.name}/></a><nav aria-label={lang === 'ar' ? 'التنقل الرئيسي' : 'Main navigation'} class="desktop-links">{t.nav.map((label,i)=><a href={links[i]}>{label}</a>)}<a href={guidesLink}>{t.guides}</a></nav><a class="lang-link" href={alternate} lang={lang === 'ar' ? 'en' : 'ar'} hreflang={lang === 'ar' ? 'en' : 'ar'}>{lang === 'ar' ? 'English' : 'العربية'}</a><details class="mobile-nav"><summary>{lang === 'ar' ? 'القائمة' : 'Menu'}</summary><nav>{t.nav.map((label,i)=><a href={links[i]}>{label}</a>)}<a href={guidesLink}>{t.guides}</a></nav></details></div></header>
   <slot/>
-  <footer class="site-footer"><div class="container-shell"><a href={home}>{t.name}</a><p>{t.positioning}</p><nav aria-label={lang === 'ar' ? 'السياسات' : 'Policies'}><a href={home+'privacy/'}>{t.privacy}</a><a href={home+'terms/'}>{t.terms}</a><a href={home+'cookies/'}>{t.cookies}</a></nav><p><time datetime="2026-10-26">{t.updated}</time></p></div></footer>
+  <footer class="site-footer"><div class="container-shell"><a href={home}>{t.name}</a><p>{t.positioning}</p><nav aria-label={lang === 'ar' ? 'السياسات' : 'Policies'}><a href={guidesLink}>{t.guides}</a><a href={home+'privacy/'}>{t.privacy}</a><a href={home+'terms/'}>{t.terms}</a><a href={home+'cookies/'}>{t.cookies}</a></nav><p><time datetime="2026-11-04">{t.updated}</time></p></div></footer>
  </body>
 </html>

@@ -100,5 +100,50 @@ figcaption { font-size:.8rem; line-height:1.9; margin-top:.9rem; overflow-wrap:a
 .consent-buttons button:last-child { background:#efe4cc; color:#173d3d; }
 #status { border:1px solid #0b596030; border-radius:1rem; padding:1.25rem; margin-top:1.5rem; }
 bdi[dir=ltr] { direction:ltr; unicode-bidi:isolate; }
+
+/* Guide (content) and hub pages */
+.guide-head { background:#052f33; color:#fff; padding-block:6.5rem 3.5rem; }
+.guide-head .section-kicker { color:#f2d698; }
+.crumbs { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; font-size:.82rem; margin-bottom:1.5rem; color:#cfe0dd; }
+.crumbs a { text-decoration:underline; text-underline-offset:3px; }
+.crumbs [aria-current=page] { color:#f2d698; }
+.guide-head h1 { font-size:clamp(2.1rem,5vw,3.8rem); font-weight:900; line-height:1.35; margin:.7rem 0 1rem; max-width:950px; }
+.guide-lead { font-size:clamp(1.05rem,2vw,1.35rem); line-height:1.95; max-width:900px; color:#f1e9d7; }
+.guide-layout { display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.42fr); gap:3rem; align-items:start; padding-top:1rem; }
+.guide-layout>* { min-width:0; }
+.guide-body { min-width:0; }
+.guide-answer { padding:1.6rem; border-radius:1.4rem; }
+.guide-answer h2 { font-size:1.15rem; font-weight:850; margin-bottom:1rem; }
+.guide-answer dl { display:grid; gap:.7rem; margin:0; }
+.guide-answer dl>div { display:flex; justify-content:space-between; gap:1rem; border-top:1px solid #0b596025; padding-top:.7rem; }
+.guide-answer dt { color:#6a746d; font-size:.9rem; }
+.guide-answer dd { margin:0; font-weight:800; text-align:end; }
+.guide-section { margin-top:2.5rem; }
+.guide-section h2 { font-size:1.6rem; font-weight:850; line-height:1.5; margin-bottom:.5rem; color:#0b5960; }
+.guide-list { padding-inline-start:1.3rem; margin-block:1rem; display:grid; gap:.5rem; }
+.guide-list li { line-height:1.9; color:#52615f; }
+.guide-aside { position:sticky; top:1.5rem; display:grid; gap:1.5rem; }
+.guide-figure { margin:0; }
+.guide-figure img { width:100%; height:auto; border-radius:2rem; }
+.guide-related,.guide-meta { padding:1.5rem; border-radius:1.4rem; }
+.guide-related h2,.guide-meta h2 { font-size:1.1rem; font-weight:850; margin-bottom:.9rem; }
+.guide-related ul,.guide-meta ul { list-style:none; padding:0; margin:0; display:grid; gap:.7rem; }
+.guide-related a { text-decoration:underline; text-underline-offset:3px; line-height:1.7; }
+.guide-meta p { line-height:1.9; color:#52615f; font-size:.92rem; }
+.guide-meta li { font-size:.92rem; overflow-wrap:anywhere; line-height:1.8; }
+.guide-meta a { text-decoration:underline; text-underline-offset:3px; }
+.guide-cta { background:#073f45; color:#fff; padding-block:3rem; }
+.guide-cta p { max-width:1000px; line-height:1.9; }
+.cta-links { display:flex; flex-wrap:wrap; gap:1rem; margin-top:1.2rem; }
+.cta-links a { border:1px solid #e8c77a; border-radius:2rem; padding:.7rem 1.4rem; }
+.cta-links a:first-child { background:#e8c77a; color:#052f33; font-weight:800; }
+.hub-section { margin-top:2.5rem; }
+.hub-section h2 { font-size:1.5rem; font-weight:850; color:#0b5960; margin-bottom:1rem; }
+.hub-list { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.2rem; }
+.hub-list li { padding:0; border-radius:1.4rem; }
+.hub-list a { display:block; padding:1.4rem; border-radius:1.4rem; }
+.hub-list h3 { font-size:1.15rem; font-weight:850; margin-bottom:.5rem; }
+.hub-list p { line-height:1.85; color:#52615f; font-size:.94rem; }
+@media(max-width:960px) { .guide-layout { grid-template-columns:1fr; gap:2rem; } .guide-aside { position:static; } .hub-list { grid-template-columns:1fr; } }
 @media(max-width:960px) { .fact-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .three-column,.two-column { grid-template-columns:1fr; gap:2rem; } .desktop-links { display:none; } .mobile-nav { display:block; width:100%; } .mobile-nav summary { cursor:pointer; } .mobile-nav nav { display:flex; flex-wrap:wrap; gap:1rem; padding-block:1rem; } .home-hero { min-height:0; } .hero-copy { padding-block:5rem 2.5rem; } }
 @media(max-width:620px) { .fact-grid,.photo-grid-new,.map-layout { grid-template-columns:1fr; } .hero-copy { padding-top:4rem; } .hero-copy h1 { font-size:clamp(2.5rem,11vw,4rem); } .hero-photo { object-position:43% center; } .content-section { padding-block:2rem 3rem; } .gallery-section,.transport-section,.faq-section,.sources-section { padding-block:3rem; } .brand img { width:150px; } .nav-inner { gap:1rem; } }

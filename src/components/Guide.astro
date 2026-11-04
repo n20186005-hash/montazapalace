@@ -1,0 +1,48 @@
+---
+import Layout from './Layout.astro';
+import NumericText from './NumericText.astro';
+import { SITE, MAP, CHECKED, sources, photos, text } from '../data/site';
+import { GROUPS, bySlug, guideHref, type Guide } from '../data/guides';
+interface Props { guide: Guide; lang: 'ar' | 'en'; }
+const { guide, lang } = Astro.props as Props;
+const en = lang === 'en'; const t = text[lang]; const c = guide[lang];
+const path = guideHref(guide.slug, lang);
+const alternate = guideHref(guide.slug, en ? 'ar' : 'en');
+const hub = (en ? '/en/' : '/') + 'guides/';
+const crumb = { home: en ? 'Home' : 'الرئيسية', guides: en ? 'Guides' : 'الأدلة' };
+const photo = guide.image ? photos.find(p => '/images/montaza-palace-' + p.file + '.jpg' === guide.image) : undefined;
+const imgAlt = en && guide.imageAlt ? guide.imageAlt : (photo ? photo[lang] : c.h1);
+const related = (c.related ?? []).map(s => bySlug(s)).filter((g): g is Guide => Boolean(g));
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'Article', '@id': SITE + path + '#article', headline: c.h1, description: c.description, inLanguage: lang, dateModified: CHECKED, mainEntityOfPage: { '@id': SITE + path }, about: { '@id': SITE + '/#attraction' }, isPartOf: { '@id': SITE + '/#website' }, image: guide.image ? SITE + guide.image : undefined },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: crumb.home, item: SITE + (en ? '/en/' : '/') },
+    { '@type': 'ListItem', position: 2, name: crumb.guides, item: SITE + hub },
+    { '@type': 'ListItem', position: 3, name: c.h1, item: SITE + path },
+  ] },
+  ...(c.faq && c.faq.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faq.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })) }] : []),
+];
+---
+<Layout lang={lang} title={c.title} description={c.description} path={path} alternate={alternate} image={guide.image} imageAlt={imgAlt}>
+ <main id="main"><script is:inline type="application/ld+json" set:html={JSON.stringify(schema)}></script>
+  <header class="guide-head"><div class="container-shell">
+   <nav class="crumbs" aria-label={en ? 'Breadcrumb' : 'مسار التنقل'}><a href={en ? '/en/' : '/'}>{crumb.home}</a><span aria-hidden="true">›</span><a href={hub}>{crumb.guides}</a><span aria-hidden="true">›</span><span aria-current="page">{c.h1}</span></nav>
+   <p class="section-kicker">{GROUPS[guide.group][lang]}</p>
+   <h1>{c.h1}</h1>
+   <p class="guide-lead"><NumericText value={c.lead}/></p>
+  </div></header>
+  <div class="content-section"><div class="container-shell guide-layout">
+   <article class="guide-body">
+    {c.quick && <section class="guide-answer arch-card"><h2>{en ? 'Short answers' : 'إجابات مختصرة'}</h2><dl>{c.quick.map(([label,value])=><div><dt>{label}</dt><dd><NumericText value={value}/></dd></div>)}</dl></section>}
+    {c.sections.map(s=><section class="guide-section"><h2>{s.h}</h2>{s.p?.map(p=><p class="section-copy"><NumericText value={p}/></p>)}{s.list && <ul class="guide-list">{s.list.map(li=><li><NumericText value={li}/></li>)}</ul>}</section>)}
+    {c.faq && c.faq.length ? <section class="guide-section"><h2>{en ? 'Frequently asked questions' : 'أسئلة متكررة'}</h2><div class="faq-list">{c.faq.map(([q,a])=><details><summary>{q}</summary><p><NumericText value={a}/></p></details>)}</div></section> : null}
+   </article>
+   <aside class="guide-aside">
+    {guide.image && <figure class="guide-figure"><img src={guide.image} width={photo?.width ?? 1600} height={photo?.height ?? 1100} alt={imgAlt} loading="lazy" decoding="async"/>{photo && <figcaption><a href={'https://commons.wikimedia.org/wiki/File:'+photo.title}>{photo.author}</a> · <a href={'https://creativecommons.org/licenses/by-sa/'+photo.version+'/'}>{photo.license}</a> · <bdi dir="ltr">{photo.date}</bdi> · {t.credit}</figcaption>}</figure>}
+    {related.length > 0 && <nav class="guide-related arch-card" aria-label={en ? 'Related guides' : 'أدلة ذات صلة'}><h2>{en ? 'Related guides' : 'أدلة ذات صلة'}</h2><ul>{related.map(r=><li><a href={guideHref(r.slug, lang)}>{r[lang].h1}</a></li>)}</ul></nav>}
+    <div class="guide-meta arch-card"><h2>{en ? 'Sources and reliability' : 'المصادر والموثوقية'}</h2><p><NumericText value={t.sourceNote}/></p><ul>{sources.map(s=><li><a href={s.url} target="_blank" rel="noopener noreferrer">{s[lang]} ↗</a></li>)}</ul><p class="editorial-date"><time datetime={CHECKED}>{t.updated}</time></p><p><a href={MAP} target="_blank" rel="noopener noreferrer">{t.map} ↗</a></p></div>
+   </aside>
+  </div></div>
+  <section class="guide-cta"><div class="container-shell"><p>{en ? 'This is an independent, unofficial visitor guide to the Montaza royal estate in Alexandria.' : 'هذا دليل زوار مستقل وغير رسمي لضَيْعة المنتزه الملكية في الإسكندرية.'}</p><div class="cta-links"><a href={hub}>{en ? 'All guides' : 'كل الأدلة'}</a><a href={en ? '/en/' : '/'} rel="noopener">{t.name}</a></div></div></section>
+ </main>
+</Layout>

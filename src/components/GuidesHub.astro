@@ -1,0 +1,39 @@
+---
+import Layout from './Layout.astro';
+import { SITE, MAP, CHECKED, text } from '../data/site';
+import { GROUPS, groupedGuides, guideHref } from '../data/guides';
+interface Props { lang: 'ar' | 'en'; }
+const { lang } = Astro.props as Props;
+const en = lang === 'en'; const t = text[lang];
+const path = en ? '/en/guides/' : '/guides/';
+const alternate = en ? '/guides/' : '/en/guides/';
+const groups = groupedGuides();
+const heading = en ? 'Montaza Palace visitor guides' : 'أدلة زيارة قصر المنتزه';
+const description = en
+  ? 'Every visitor guide to Montaza Palace and Gardens in Alexandria: tickets, opening hours, palace access, transport, gardens, history, nearby places and walking routes.'
+  : 'كل أدلة زيارة قصر وحدائق المنتزه بالإسكندرية: التذاكر، المواعيد، دخول القصور، الوصول، الحدائق، التاريخ، المناطق المجاورة ومسارات التنزه.';
+const intro = en
+  ? 'Practical, independent guides to the Montaza estate. Each page answers one visitor question and marks anything we have not been able to verify.'
+  : 'أدلة عملية ومستقلة لضَيْعة المنتزه. كل صفحة تجيب عن سؤال زائر واحد وتوضح ما لم نتمكن من التحقق منه.';
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'CollectionPage', '@id': SITE + path, url: SITE + path, name: heading, description, inLanguage: lang, dateModified: CHECKED, isPartOf: { '@id': SITE + '/#website' }, about: { '@id': SITE + '/#attraction' } },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: en ? 'Home' : 'الرئيسية', item: SITE + (en ? '/en/' : '/') },
+    { '@type': 'ListItem', position: 2, name: heading, item: SITE + path },
+  ] },
+];
+---
+<Layout lang={lang} title={heading + (en ? ' — Montaza Palace, Alexandria' : ' — قصر المنتزه، الإسكندرية')} description={description} path={path} alternate={alternate}>
+ <main id="main"><script is:inline type="application/ld+json" set:html={JSON.stringify(schema)}></script>
+  <header class="guide-head"><div class="container-shell">
+   <nav class="crumbs" aria-label={en ? 'Breadcrumb' : 'مسار التنقل'}><a href={en ? '/en/' : '/'}>{en ? 'Home' : 'الرئيسية'}</a><span aria-hidden="true">›</span><span aria-current="page">{heading}</span></nav>
+   <p class="section-kicker">{en ? 'Alexandria · Royal gardens and palaces' : 'الإسكندرية · حدائق وقصور ملكية سابقة'}</p>
+   <h1>{heading}</h1>
+   <p class="guide-lead">{intro}</p>
+  </div></header>
+  <div class="content-section"><div class="container-shell">
+   {groups.map((g)=><section class="hub-section"><h2>{GROUPS[g.key][lang]}</h2><ul class="hub-list">{g.items.map((it)=><li class="arch-card"><a href={guideHref(it.slug, lang)}><h3>{it[lang].h1}</h3><p>{it[lang].description}</p></a></li>)}</ul></section>)}
+  </div></div>
+  <section class="guide-cta"><div class="container-shell"><p>{en ? 'Independent, unofficial guide. Confirm prices, hours and access with the site before you travel.' : 'دليل مستقل وغير رسمي. أكّد الأسعار والمواعيد والدخول مع الموقع قبل السفر.'}</p><div class="cta-links"><a href={en ? '/en/' : '/'}>{t.name}</a><a href={MAP} target="_blank" rel="noopener noreferrer">{t.map} ↗</a></div></div></section>
+ </main>
+</Layout>
