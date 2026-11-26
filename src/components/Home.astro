@@ -6,7 +6,7 @@ import { bySlug, guideHref, type Guide } from '../data/guides';
 const { lang = 'ar' } = Astro.props as { lang: Language }; const t = text[lang]; const en = lang === 'en'; const path = en ? '/en/' : '/';
 const hub = path + 'guides/';
 const keyGuides = ['tickets', 'opening-hours', 'palace-interior-access', 'how-to-get-there', 'gardens', 'location-entrance'].map(s => bySlug(s)).filter((g): g is Guide => Boolean(g));
-const destinationGuides = ['royal-jewelry-museum', 'alexandria-national-museum'].map(s => bySlug(s)).filter((g): g is Guide => Boolean(g));
+const destinationGuides = ['royal-jewelry-museum', 'alexandria-national-museum', 'qaitbay-citadel', 'kom-el-dikka', 'graeco-roman-museum'].map(s => bySlug(s)).filter((g): g is Guide => Boolean(g));
 const schema = [
  { '@context': 'https://schema.org', '@type': 'TouristAttraction', '@id': SITE+'/#attraction', name: 'Montaza Palace', alternateName: ['قصر المنتزه','Montazah Palace'], url: SITE+'/', hasMap: MAP, geo: { '@type':'GeoCoordinates', ...GEO }, address: { '@type':'PostalAddress', streetAddress:'El-Gaish Rd, Al Mandarah Bahri, Montaza 2', addressLocality:'Alexandria', addressRegion:'Alexandria Governorate', postalCode:'5527001', addressCountry:'EG' }, image: photos.map(p=>SITE+'/images/montaza-palace-'+p.file+'.jpg') },
  { '@context':'https://schema.org', '@type':'WebSite', '@id':SITE+'/#website', url:SITE+'/', name:'Montaza Palace Guide', inLanguage:['ar','en'], description:t.positioning },

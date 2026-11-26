@@ -6,6 +6,7 @@ import { nearbyGuides } from './nearby';
 import { itineraryGuides } from './itineraries';
 import { attractionGuides } from './attractions';
 import { destinationGuides } from './destinations';
+import { alexandriaSites } from './alexandria-sites';
 
 export { GROUPS, GROUP_ORDER } from './types';
 export type { Guide, GuideCopy, GuideSection, GroupKey } from './types';
@@ -18,6 +19,7 @@ export const guides: Guide[] = [
   ...itineraryGuides,
   ...attractionGuides,
   ...destinationGuides,
+  ...alexandriaSites,
 ];
 
 export function bySlug(slug: string): Guide | undefined {
