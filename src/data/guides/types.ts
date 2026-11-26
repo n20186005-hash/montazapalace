@@ -29,6 +29,7 @@ export interface Guide {
   /** shared, language-neutral hero image path used for the guide figure and social/structured data */
   image?: string;
   imageAlt?: string;
+  destination?: { map: string; source: string; addressSource: string; checked: string };
   en: GuideCopy;
   ar: GuideCopy;
 }

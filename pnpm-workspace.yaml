@@ -4,3 +4,8 @@
 # esbuild(vite/astro 依赖) 的安装脚本需要执行以链接平台二进制。
 allowBuilds:
   esbuild: true
+overrides:
+  fast-uri@^3: 3.1.9
+  undici@^8: 8.13.1
+  source-map-js@^1: 1.2.4
+  zod@^4: 4.6.7

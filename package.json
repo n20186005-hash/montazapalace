@@ -21,12 +21,18 @@
     "@astrojs/check": "0.9.10",
     "@astrojs/sitemap": "3.7.3",
     "@tailwindcss/vite": "4.3.3",
-    "astro": "7.2.4",
+    "astro": "7.4.13",
     "tailwindcss": "4.3.3"
   },
   "devDependencies": {
     "prettier": "3.9.6",
     "prettier-plugin-astro": "0.14.1",
     "typescript": "6.0.3"
+  },
+  "overrides": {
+    "fast-uri": "3.1.9",
+    "undici": "8.13.1",
+    "source-map-js": "1.2.4",
+    "zod": "4.6.7"
   }
 }
